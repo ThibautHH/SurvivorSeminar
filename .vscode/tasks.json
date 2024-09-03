@@ -1,0 +1,23 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "watch",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "watch",
+                "run",
+                "--project",
+                "${workspaceFolder}/src/SoulDashboard.csproj"
+            ],
+            "problemMatcher": "$msCompile",
+            "options": {
+            "env": {
+                    "DOTNET_WATCH_SUPPRESS_LAUNCH_BROWSER": "1",
+                    "AGEMA_ROOT_PASSWORD": "Root666?"
+                }
+            }
+        }
+    ]
+}
