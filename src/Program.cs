@@ -34,9 +34,8 @@ using (var scope = new ServiceCollection().AddDbContext<IdentityDbContext>(optio
         await context.Database.GetInfrastructure().GetRequiredService<IMigrator>().MigrateAsync(CreateIdentitySchema.MigrationId);
 }
 
-builder.Services.AddDbContext<IdentityDbContext>(options =>
-        options.UseSqlite(connectionString).EnableSensitiveDataLogging(builder.Environment.IsDevelopment())
-    ).AddDatabaseDeveloperPageExceptionFilter();
+builder.Services.AddDbContext<IdentityDbContext>(options => options.UseSqlite(connectionString))
+    .AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<IdentityDbContext>()
