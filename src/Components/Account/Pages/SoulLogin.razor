@@ -1,0 +1,103 @@
+@page "/Account/SoulLogin"
+
+@using System.ComponentModel.DataAnnotations
+@using System.Text
+@using System.Text.Json.Serialization;
+@using Microsoft.AspNetCore.Authentication
+@using Microsoft.AspNetCore.Authentication.Cookies
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.WebUtilities
+@using Microsoft.Extensions.Options
+@using SoulDashboard.Data
+@using System.Security.Claims
+@using SoulDashboard.Identity.Authentication.SoulConnection
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@inject ILogger<SoulLogin> Logger
+@inject IdentityRedirectManager RedirectManager
+@inject SoulConnectionBackchannel Backchannel
+@inject IOptionsMonitor<CookieAuthenticationOptions> CookieOptions
+
+<PageTitle>Soul Connection log-in</PageTitle>
+
+<h1>Soul Connection log-in</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <StatusMessage Message="@errorMessage" />
+        <EditForm Model="Input" method="post" OnValidSubmit="LoginUser" FormName="login">
+            <DataAnnotationsValidator />
+            <h2>Use your Soul Connection account to log in.</h2>
+            <hr />
+            <ValidationSummary class="text-danger" role="alert" />
+            <div class="form-floating mb-3">
+                <InputText @bind-Value="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                <label for="email" class="form-label">Email</label>
+                <ValidationMessage For="() => Input.Email" class="text-danger" />
+            </div>
+            <div class="form-floating mb-3">
+                <InputText type="password" @bind-Value="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
+                <label for="password" class="form-label">Password</label>
+                <ValidationMessage For="() => Input.Password" class="text-danger" />
+            </div>
+            <div>
+                <button type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    private string? errorMessage;
+
+    [CascadingParameter]
+    private HttpContext HttpContext { get; set; } = default!;
+
+    [SupplyParameterFromForm]
+    private InputModel Input { get; set; } = new();
+
+    [SupplyParameterFromQuery]
+    private string? ReturnUrl { get; set; }
+
+    public async Task LoginUser()
+    {
+        var message = new HttpRequestMessage(HttpMethod.Post, Backchannel.Options.LoginEndpoint);
+        message.Content = JsonContent.Create(Input);
+
+        var response = await Backchannel.SendAsync(message, HttpContext.RequestAborted);
+        if (!response.IsSuccessStatusCode)
+        {
+            errorMessage = "Error: " + (await response.Content.ReadFromJsonAsync<LoginResponse>())?.Detail ?? "An error occurred while logging in.";
+            return;
+        }
+
+        var accessToken = (await response.Content.ReadFromJsonAsync<LoginResponse>())?.AccessToken
+            ?? throw new InvalidOperationException("The access token was not provided by the API.");
+
+        var properties = SignInManager.ConfigureExternalAuthenticationProperties(SoulConnectionDefaults.AuthenticationScheme, ReturnUrl, Input.Email);
+
+        var identity = new ClaimsIdentity(SoulConnectionDefaults.AuthenticationScheme);
+        identity.AddClaims([
+            new(ClaimTypes.Name, Input.Email, ClaimValueTypes.Email, CookieOptions.Get(SoulConnectionDefaults.AuthenticationScheme).ClaimsIssuer, null, identity),
+            new(ClaimTypes.NameIdentifier, Input.Email, ClaimValueTypes.Email, CookieOptions.Get(SoulConnectionDefaults.AuthenticationScheme).ClaimsIssuer, null, identity),
+            new(ClaimTypes.Email, Input.Email, ClaimValueTypes.Email, CookieOptions.Get(SoulConnectionDefaults.AuthenticationScheme).ClaimsIssuer, null, identity),
+            new(SoulConnectionDefaults.TokenClaimType, accessToken, null, CookieOptions.Get(SoulConnectionDefaults.AuthenticationScheme).ClaimsIssuer, null, identity)
+        ]);
+
+        await HttpContext.SignInAsync(new(identity), properties);
+    }
+
+    private sealed class InputModel
+    {
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; } = "";
+
+        [Required]
+        [DataType(DataType.Password)]
+        public string Password { get; set; } = "";
+    }
+
+    private sealed record LoginResponse([property: JsonPropertyName("access_token")] string? AccessToken, string? Detail);
+}

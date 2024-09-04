@@ -8,6 +8,7 @@ using SoulDashboard.Components.Account;
 using SoulDashboard.Data;
 using SoulDashboard.Data.Migrations;
 using SoulDashboard.Database.Contexts;
+using SoulDashboard.Identity.Authentication.SoulConnection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,8 +20,15 @@ builder.Services.AddScoped<IdentityUserAccessor>();
 builder.Services.AddScoped<IdentityRedirectManager>();
 builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
 
-builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme)
-    .AddApplicationCookie();
+builder.Services.AddAuthentication(options =>
+    {
+        options.DefaultScheme = IdentityConstants.ApplicationScheme;
+        options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+    })
+    .AddCookie(SoulConnectionDefaults.AuthenticationScheme, "Soul Connection", SoulConnectionDefaults.Configure)
+    .AddIdentityCookies();
+
+builder.Services.AddSoulConnection(builder.Configuration.GetRequiredSection($"ExternalLogin:{SoulConnectionDefaults.AuthenticationScheme}"));
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 #pragma warning disable ASP0000 // Do not call 'IServiceCollection.BuildServiceProvider' in 'ConfigureServices'
