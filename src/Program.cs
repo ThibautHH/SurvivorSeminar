@@ -1,12 +1,9 @@
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using SoulDashboard.Components;
 using SoulDashboard.Components.Account;
 using SoulDashboard.Data;
-using SoulDashboard.Data.Migrations;
 using SoulDashboard.Database.Contexts;
 using SoulDashboard.Identity.Authentication.SoulConnection;
 
@@ -31,26 +28,27 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddSoulConnection(builder.Configuration.GetRequiredSection($"ExternalLogin:{SoulConnectionDefaults.AuthenticationScheme}"));
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+if (!EF.IsDesignTime)
 #pragma warning disable ASP0000 // Do not call 'IServiceCollection.BuildServiceProvider' in 'ConfigureServices'
-using (var scope = new ServiceCollection().AddDbContext<IdentityDbContext>(options => options.UseSqlite(connectionString))
+    using (var scope = new ServiceCollection().AddDbContexts(connectionString)
         .BuildServiceProvider()
         .CreateScope())
 #pragma warning restore ASP0000 // Do not call 'IServiceCollection.BuildServiceProvider' in 'ConfigureServices'
-{
-    var context = scope.ServiceProvider.GetRequiredService<IdentityDbContext>();
-    if ((await context.Database.GetPendingMigrationsAsync()).Contains(CreateIdentitySchema.MigrationId))
-        await context.Database.GetInfrastructure().GetRequiredService<IMigrator>().MigrateAsync(CreateIdentitySchema.MigrationId);
-}
+        foreach (var context in (IEnumerable<DbContext>)[
+                scope.ServiceProvider.GetRequiredService<IdentityDbContext>(),
+                scope.ServiceProvider.GetRequiredService<ApplicationDbContext>()
+            ])
+            await context.Database.MigrateAsync();
 
-builder.Services.AddDbContext<IdentityDbContext>(options => options.UseSqlite(connectionString))
-    .AddDatabaseDeveloperPageExceptionFilter();
+builder.Services.AddDatabaseDeveloperPageExceptionFilter()
+    .AddDbContexts(connectionString);
 
-builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddIdentityCore<Employee>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<IdentityDbContext>()
     .AddSignInManager()
     .AddDefaultTokenProviders();
 
-builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
+builder.Services.AddSingleton<IEmailSender<Employee>, IdentityNoOpEmailSender>();
 
 var app = builder.Build();
 

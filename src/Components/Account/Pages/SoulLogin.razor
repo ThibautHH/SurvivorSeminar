@@ -12,8 +12,8 @@
 @using System.Security.Claims
 @using SoulDashboard.Identity.Authentication.SoulConnection
 
-@inject SignInManager<ApplicationUser> SignInManager
-@inject UserManager<ApplicationUser> UserManager
+@inject SignInManager<Employee> SignInManager
+@inject UserManager<Employee> UserManager
 @inject ILogger<SoulLogin> Logger
 @inject IdentityRedirectManager RedirectManager
 @inject SoulConnectionBackchannel Backchannel
