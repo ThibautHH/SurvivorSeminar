@@ -1,0 +1,76 @@
+body {
+    font-family: 'SUSE', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.container {
+    max-width: 800px; /* Adjusted to allow more space for the charts */
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Ensure each section of charts is laid out in a row */
+.chart-section {
+    display: flex;
+    flex-direction: row; /* Align charts in rows */
+    gap: 20px;
+    flex-wrap: wrap; /* Allow wrapping if space runs out */
+}
+
+/* Donut chart styling */
+.donut-chart-container {
+    flex: 1;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    min-width: 300px;
+}
+
+/* Employee list section styling */
+.employee-list-section {
+    flex: 1;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Line chart section styling */
+.line-chart-section {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%; /* Make the line chart span the full width */
+}
+
+.scrollable-list {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.scrollable-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.scrollable-list ul li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+}
+
+.scrollable-list ul li:hover {
+    background-color: #eee;
+}
+
+.scrollable-list ul li.active {
+    background-color: #ccc;
+}

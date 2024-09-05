@@ -1,0 +1,14 @@
+.astro-container {
+    max-width: 250px;
+}
+
+.astro-row {
+    display: flex;
+    flex-wrap: wrap;
+
+    justify-content: center;
+}
+
+.compatibility-title {
+    font-size: 120px;
+}

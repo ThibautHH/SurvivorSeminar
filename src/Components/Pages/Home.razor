@@ -1,7 +1,86 @@
 ﻿@page "/"
+@using Microsoft.AspNetCore.Components.QuickGrid
 
 <PageTitle>Home</PageTitle>
 
 <h1>Soul Dashboard</h1>
 
 Welcome to Soul Dashboard.
+
+
+<div class="canvas-row">
+  <div class="canvas-container">
+    <canvas id="myChart1"></canvas>
+  </div>
+  <div class="canvas-container">
+    <canvas id="myChart2"></canvas>
+  </div>
+  <div class="canvas-container">
+    <canvas id="myChart3"></canvas>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const ctx1 = document.getElementById('myChart1').getContext('2d');
+    const ctx2 = document.getElementById('myChart2').getContext('2d');
+    const ctx3 = document.getElementById('myChart3').getContext('2d');
+
+    const chartConfig = {
+        type: 'bar',
+        data: {
+            labels: ['2012', '2013', '2014', '2015', '2016', '2017'],
+            datasets: [
+            {
+                label: 'column 1',
+                data: [200, 400, 50, 300, 350, 10],
+                borderRadius: 10,
+            },
+            {
+                label: 'column 2',
+                data: [50, 130, 80, 100, 150, 140],
+                borderRadius: 10,
+            },
+            {
+                label: 'column 3',
+                data: [50, 130, 80, 100, 150, 140],
+                borderRadius: 10,
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    };
+
+    new Chart(ctx1, chartConfig);
+    new Chart(ctx2, chartConfig);
+    new Chart(ctx3, chartConfig);
+</script>
+
+<div class="grid">
+    <QuickGrid Items="@people" Theme="corporate">
+        <PropertyColumn Property="@(p => p.seq)" Sortable="true" />
+        <PropertyColumn Property="@(p => p.Product)" Sortable="true" />
+        <PropertyColumn Property="@(p => p.Category)" Sortable="true" />
+        <PropertyColumn Property="@(p => p.Period)" Sortable="true" />
+        <PropertyColumn Property="@(p => p.Sales)" Sortable="true" />
+    </QuickGrid>
+</div>
+
+@code {
+    record Person(int seq, string Product, string Category, string Period, string Sales);
+
+    IQueryable<Person> people = new[]
+    {
+        new Person(1, "Tea", "cat1", "Jan-11", "20K"),
+        new Person(2, "Coffee", "$23,234.56", "Jan-11", "15K"),
+        new Person(3, "Milk", "cat2", "Jan-11", "5K"),
+        new Person(4, "Cereal", "cat3", "Jan-11", "30K"),
+        new Person(5, "Chocolate", "cat4", "Jan-11", "25K"),
+    }.AsQueryable();
+}

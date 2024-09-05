@@ -1,0 +1,52 @@
+@page "/Astro"
+
+<PageTitle>Astro</PageTitle>
+
+<h1>Astro</h1>
+
+<EditForm Model="@this" OnValidSubmit="OnPost" FormName="astroForm">
+    <div class="astro-row">
+        <div class="astro-container" style="margin-right: 20px;">
+            <InputText @bind-Value="client1" placeholder="Client 1 Name" required/>
+        </div>
+        <div class="astro-container" style="margin-right: 20px;">
+            <button type="submit">See compatibility</button>
+        </div>
+        <div class="astro-container">
+            <InputText @bind-Value="client2" placeholder="Client 2 Name" required/>
+        </div>
+    </div>
+</EditForm>
+
+
+@if (compatibilityScore.HasValue)
+{
+    <div class="compatibility-title">
+        <h2>Compatibility : @compatibilityScore.Value%</h2>
+    </div>
+}
+
+
+@code {
+    private string client1;
+    private string client2;
+    private int? compatibilityScore;
+
+    private void OnPost()
+    {
+        // Replace with actual logic to get astrological signs
+        @* var astro1 = GetAstrologicalSign(client1);
+        var astro2 = GetAstrologicalSign(client2); *@
+
+        var astro1 = "Gemini";
+        var astro2 = "Gemini";
+
+        if (astro1 == astro2)
+        {
+            compatibilityScore = new Random().Next(50, 101);
+        } else
+        {
+            compatibilityScore = new Random().Next(0, 51);
+        }
+    }
+}
