@@ -1,14 +1,63 @@
+.header {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.header h1 {
+    margin: 0;
+}
+
+.header hr {
+    border: 0;
+    height: 2px;
+    background: black;
+    margin-top: 10px;
+    width: 100%;
+}
+
 .astro-container {
     max-width: 250px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.astro-sign-box {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-top: 10px;
+    min-height: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+}
+
+.astro-sign-box p {
+    margin: 5px 0;
 }
 
 .astro-row {
     display: flex;
     flex-wrap: wrap;
-
     justify-content: center;
+    margin-bottom: 20px;
 }
 
-.compatibility-title {
-    font-size: 120px;
+.compatibility-result {
+    font-size: 40px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.heart-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.heart {
+    width: 100px;
+    height: 100px;
 }

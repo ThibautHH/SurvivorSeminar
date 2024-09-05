@@ -2,51 +2,84 @@
 
 <PageTitle>Astro</PageTitle>
 
-<h1>Astro</h1>
+<div class="header">
+    <h1>Astro</h1>
+    <hr />
+</div>
 
-<EditForm Model="@this" OnValidSubmit="OnPost" FormName="astroForm">
-    <div class="astro-row">
-        <div class="astro-container" style="margin-right: 20px;">
-            <InputText @bind-Value="client1" placeholder="Client 1 Name" required/>
+<div class="astro-input">
+    <EditForm Model="@this" OnValidSubmit="OnPost" FormName="astroForm">
+        <div class="astro-row">
+            <div class="astro-container" style="margin-right: 20px;">
+                <InputText @bind-Value="client1" placeholder="Client 1 Name" required />
+                <div class="astro-sign-box">
+                    @if (!string.IsNullOrEmpty(astroSign1))
+                    {
+                        <p>Sign: @astroSign1</p>
+                    }
+                </div>
+            </div>
+            <div class="astro-container" style="margin-right: 20px;">
+                <button type="submit">See compatibility</button>
+            </div>
+            <div class="astro-container">
+                <InputText @bind-Value="client2" placeholder="Client 2 Name" required />
+                <div class="astro-sign-box">
+                    @if (!string.IsNullOrEmpty(astroSign2))
+                    {
+                        <p>Sign: @astroSign2</p>
+                    }
+                </div>
+            </div>
         </div>
-        <div class="astro-container" style="margin-right: 20px;">
-            <button type="submit">See compatibility</button>
-        </div>
-        <div class="astro-container">
-            <InputText @bind-Value="client2" placeholder="Client 2 Name" required/>
-        </div>
-    </div>
-</EditForm>
-
+    </EditForm>
+</div>
 
 @if (compatibilityScore.HasValue)
 {
-    <div class="compatibility-title">
-        <h2>Compatibility : @compatibilityScore.Value%</h2>
+    <div class="compatibility-result">
+        <h2>Compatibility: @compatibilityScore.Value%</h2>
+        <div class="heart-container">
+            <svg viewBox="0 0 32 29.6" class="heart">
+                <defs>
+                    <linearGradient id="fillColor" x1="0%" y1="100%" x2="0%" y2="0%">
+                        <stop offset="@compatibilityScore.Value%" stop-color="pink" />
+                        <stop offset="@compatibilityScore.Value%" stop-color="white" />
+                    </linearGradient>
+                </defs>
+                <path fill="url(#fillColor)" stroke="black" stroke-width="2"
+                      d="M23.6,0c-2.7,0-5.2,1.3-6.8,3.3C15.7,1.3,13.3,0,10.6,0C5.5,0,1.5,4,1.5,9.1
+                      c0,6.7,10.3,14.8,14.7,17.5c4.4-2.7,14.7-10.8,14.7-17.5C30.8,4,26.8,0,23.6,0z"/>
+            </svg>
+        </div>
     </div>
 }
-
 
 @code {
     private string client1;
     private string client2;
+    private string astroSign1;
+    private string astroSign2;
     private int? compatibilityScore;
 
     private void OnPost()
     {
-        // Replace with actual logic to get astrological signs
-        @* var astro1 = GetAstrologicalSign(client1);
-        var astro2 = GetAstrologicalSign(client2); *@
+        astroSign1 = GetAstrologicalSign(client1);
+        astroSign2 = GetAstrologicalSign(client2);
 
-        var astro1 = "Gemini";
-        var astro2 = "Gemini";
-
-        if (astro1 == astro2)
+        if (astroSign1 == astroSign2)
         {
             compatibilityScore = new Random().Next(50, 101);
-        } else
+        }
+        else
         {
             compatibilityScore = new Random().Next(0, 51);
         }
+    }
+    private string GetAstrologicalSign(string name)
+    {
+        var random = new Random();
+        var signs = new[] { "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces" };
+        return signs[random.Next(signs.Length)];
     }
 }
