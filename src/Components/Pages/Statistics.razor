@@ -21,7 +21,7 @@ salary of each employee *@
         <!-- Row 1 -->
         <div class="chart-section">
             <div class="donut-chart-container">
-                    <h3>Number of meetings by employee</h3>
+                <h3>Number of meetings by employee</h3>
                 <canvas id="meetingsDonutChart"></canvas>
             </div>
             <div class="employee-list-section">
@@ -43,14 +43,13 @@ salary of each employee *@
                 <canvas id="SalaryPolar"></canvas>
             </div>
             <div class="polar-list-section">
-                <h3>GAUGE</h3>
+                <h3>Employee Rating</h3>
                 <canvas id="RatingGauge"></canvas>
             </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-gauge@0.4.0/dist/chartjs-gauge.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var employees = [
@@ -179,12 +178,11 @@ salary of each employee *@
                     var index = this.dataset.index;
                     var selectedEmployee = employees[index];
 
-                    // Highlight the clicked segment in the donut chart
                     meetingsDonutChart.setActiveElements([{ datasetIndex: 0, index: index }]);
                     meetingsDonutChart.update();
 
                     updateBarChart(selectedEmployee);
-                    updateGaugeChart(selectedEmployee);
+                    updateRatingGauge(selectedEmployee);
                 });
             });
 
@@ -259,20 +257,88 @@ salary of each employee *@
                 meetingsBarChart.update();
             }
 
+            var ctxRatingGauge = document.getElementById('RatingGauge').getContext('2d');
+            var ratingGauge = new Chart(ctxRatingGauge, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Rating', 'Remaining'],
+                    datasets: [{
+                        label: 'Rating Gauge',
+                        data: [0, 5],
+                        backgroundColor: ['#00c853', '#d3d3d3'],
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    rotation: -90,
+                    circumference: 180,
+                    responsive: true,
+                    cutout: '70%',
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            enabled: false
+                        }
+                    }
+                },
+                plugins: [{
+                    id: 'centerText',
+                    beforeDraw: function (chart) {
+                        var width = chart.width,
+                            height = chart.height,
+                            ctx = chart.ctx;
+                        ctx.restore();
+                        var fontSize = (height / 150).toFixed(2);
+                        ctx.font = fontSize + "em sans-serif";
+                        ctx.textBaseline = "middle";
+                        var rating = chart.data.datasets[0].data[0];
+                        var text = rating.toFixed(1) + " / 5";
+                        var textX = Math.round((width - ctx.measureText(text).width) / 2);
+                        var textY = height / 1.5;
+
+                        ctx.fillText(text, textX, textY);
+                        ctx.save();
+                    }
+                }]
+            });
+
+
+
+            function updateRatingGauge(employee) {
+                var rating = employee.rating;
+
+                var fillColor;
+                if (rating / 5 < 0.3) {
+                    fillColor = '#ff5252';
+                } else if (rating / 5 < 0.6) {
+                    fillColor = '#ffeb3b';
+                } else {
+                    fillColor = '#00c853';
+                }
+
+                ratingGauge.data.datasets[0].data = [rating, 5 - rating];
+                ratingGauge.data.datasets[0].backgroundColor = [fillColor, '#d3d3d3'];
+                ratingGauge.update();
+            }
+
+
             updateBarChart(employees[0]);
+            updateRatingGauge(employees[0]);
 
             var ctxPolar = document.getElementById('SalaryPolar').getContext('2d');
 
             var salaryPolar = new Chart(ctxPolar, {
                 type: 'polarArea',
                 data: {
-                    labels: employees.map(employee => employee.name), // Use employee names as labels
+                    labels: employees.map(employee => employee.name),
                     datasets: [{
                         label: 'Employee Salary',
-                        data: employees.map(employee => employee.salary), // Use employee salaries as data
+                        data: employees.map(employee => employee.salary),
                         backgroundColor: function (context) {
                             var index = context.dataIndex;
-                            return barColors[index % barColors.length]; // Use the color array for background colors
+                            return barColors[index % barColors.length];
                         },
                         borderWidth: 1
                     }]
@@ -292,56 +358,14 @@ salary of each employee *@
                     },
                     plugins: {
                         legend: {
-                            display: false // Disable the legend here
-                        }
-                    }
-                }
-            });
-
-            var ctxGauge = document.getElementById('RatingGauge').getContext('2d');
-
-            // Example configuration for the gauge chart
-            var ratingGauge = new Chart(ctxGauge, {
-                type: 'gauge',
-                data: {
-                    labels: ['0', '1', '2', '3', '4', '5'], // These labels will appear on the gauge
-                    datasets: [{
-                        data: [5], // Maximum value is 5 for rating
-                        value: employees[0].rating, // Set the initial rating of the first employee
-                        backgroundColor: ['#ff0000', '#ff9900', '#ffff00', '#00ff00', '#00cc00'],
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    needle: {
-                        radiusPercentage: 2,
-                        widthPercentage: 3.2,
-                        lengthPercentage: 80,
-                        color: 'rgba(0, 0, 0, 1)'
-                    },
-                    valueLabel: {
-                        formatter: Math.round
-                    },
-                    plugins: {
-                        legend: {
                             display: false
                         }
-                    },
-                    layout: {
-                        padding: {
-                            bottom: 10
-                        }
                     }
                 }
             });
 
-            function updateGaugeChart(employee) {
-                ratingGauge.data.datasets[0].value = employee.rating; // Update the gauge with the new rating
-                ratingGauge.update();
-            }
-
         });
+
     </script>
 </body>
 
