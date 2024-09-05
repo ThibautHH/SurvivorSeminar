@@ -7,7 +7,7 @@ body {
 }
 
 .container {
-    max-width: 1500px; /* Adjusted to allow more space for the charts */
+    max-width: 1500px;
     margin: 0 auto;
     padding: 20px;
     display: flex;
@@ -15,15 +15,13 @@ body {
     gap: 20px;
 }
 
-/* Ensure each section of charts is laid out in a row */
 .chart-section {
     display: flex;
-    flex-direction: row; /* Align charts in rows */
+    flex-direction: row;
     gap: 20px;
-    flex-wrap: wrap; /* Allow wrapping if space runs out */
+    flex-wrap: wrap;
 }
 
-/* Donut chart styling */
 .donut-chart-container {
     flex: 1;
     padding: 20px;
@@ -34,7 +32,6 @@ body {
     max-width: 350px;
 }
 
-/* Employee list section styling */
 .employee-list-section {
     flex: 1;
     padding: 20px;
@@ -54,6 +51,14 @@ body {
     max-width: 500px;
 }
 
+.chart-section {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+
 .gauge-list-section {
     flex: 1;
     padding: 20px;
@@ -63,13 +68,12 @@ body {
     min-width: 300px;
 }
 
-/* Line chart section styling */
 .line-chart-section {
     padding: 20px;
     background-color: #fff;
     border-radius: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 100%; /* Make the line chart span the full width */
+    width: 100%;
     max-width: 800px;
 }
 

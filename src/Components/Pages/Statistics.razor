@@ -4,10 +4,6 @@
 <!DOCTYPE html>
 <html lang="fr">
 
-@* number of events
-gauge chart for quality of each coach
-salary of each employee *@
-
 <head>
     <link href="https://fonts.googleapis.com/css2?family=SUSE:wght@100..800&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
@@ -18,7 +14,6 @@ salary of each employee *@
 
 <body>
     <div class="container">
-        <!-- Row 1 -->
         <div class="chart-section">
             <div class="donut-chart-container">
                 <h3>Number of meetings by employee</h3>
@@ -36,7 +31,6 @@ salary of each employee *@
             </div>
         </div>
 
-        <!-- Row 2 -->
         <div class="chart-section">
             <div class="polar-list-section">
                 <h3>Employee Salary</h3>
@@ -45,6 +39,10 @@ salary of each employee *@
             <div class="polar-list-section">
                 <h3>Employee Rating</h3>
                 <canvas id="RatingGauge"></canvas>
+            </div>
+            <div class="polar-list-section">
+                <h3>Number of Events by Employee</h3>
+                <canvas id="eventsPieChart"></canvas>
             </div>
         </div>
     </div>
@@ -58,70 +56,80 @@ salary of each employee *@
                     meetings: 12,
                     meetingDates: ['2024-01-05', '2024-02-12', '2024-02-19', '2024-02-01', '2024-03-07', '2024-03-14'],
                     salary: 8450,
-                    rating: 4.1
+                    rating: 4.1,
+                    events: 5
                 },
                 {
                     name: 'Jane Smith',
                     meetings: 19,
                     meetingDates: ['2024-01-02', '2024-01-09', '2024-01-16', '2024-02-03', '2024-02-10'],
                     salary: 6700,
-                    rating: 1.5
+                    rating: 1.5,
+                    events: 5
                 },
                 {
                     name: 'Michael Johnson',
                     meetings: 3,
                     meetingDates: ['2024-04-04', '2024-04-25', '2024-07-08'],
                     salary: 8164,
-                    rating: 2.1
+                    rating: 2.1,
+                    events: 5
                 },
                 {
                     name: 'Emily Davis',
                     meetings: 5,
                     meetingDates: ['2024-10-03', '2024-10-31', '2024-11-15'],
                     salary: 4210,
-                    rating: 3.8
+                    rating: 3.8,
+                    events: 5
                 },
                 {
                     name: 'Jean Davis',
                     meetings: 5,
                     meetingDates: ['2024-10-03', '2024-03-17', '2024-10-31'],
                     salary: 6613,
-                    rating: 2.9
+                    rating: 2.9,
+                    events: 5
                 },
                 {
                     name: 'Marc Davis',
                     meetings: 5,
                     meetingDates: ['2024-10-31', '2024-11-15'],
                     salary: 135,
-                    rating: 0.4
+                    rating: 0.4,
+                    events: 5
                 },
                 {
                     name: 'Elthon Davis',
                     meetings: 5,
                     meetingDates: ['2024-10-03', '2024-03-17', '2024-11-15'],
                     salary: 7920,
-                    rating: 3.7
+                    rating: 3.7,
+                    events: 5
                 },
                 {
                     name: 'John Davis',
                     meetings: 5,
                     meetingDates: ['2024-10-03', '2024-03-17', '2024-10-31', '2024-11-15'],
                     salary: 2680,
-                    rating: 2.6
+                    rating: 2.6,
+                    events: 5
                 },
                 {
                     name: 'Carotte Davis',
                     meetings: 5,
                     meetingDates: ['2024-03-17', '2024-10-31', '2024-11-15'],
                     salary: 1760,
-                    rating: 4.9
+                    rating: 4.9,
+                    events: 5
                 },
                 {
                     name: 'Android Davis',
                     meetings: 5,
                     meetingDates: ['2024-10-03', '2024-11-15'],
                     salary: 4912,
-                    rating: 3.0
+                    rating: 3.0,
+                    events: 5
                 },
             ];
 
@@ -171,19 +179,6 @@ salary of each employee *@
                         }
                     }
                 }
-            });
-
-            document.querySelectorAll('#employeeList li').forEach(function (li) {
-                li.addEventListener('click', function () {
-                    var index = this.dataset.index;
-                    var selectedEmployee = employees[index];
-
-                    meetingsDonutChart.setActiveElements([{ datasetIndex: 0, index: index }]);
-                    meetingsDonutChart.update();
-
-                    updateBarChart(selectedEmployee);
-                    updateRatingGauge(selectedEmployee);
-                });
             });
 
             var ctxBar = document.getElementById('meetingsBarChart').getContext('2d');
@@ -304,8 +299,6 @@ salary of each employee *@
                 }]
             });
 
-
-
             function updateRatingGauge(employee) {
                 var rating = employee.rating;
 
@@ -322,7 +315,6 @@ salary of each employee *@
                 ratingGauge.data.datasets[0].backgroundColor = [fillColor, '#d3d3d3'];
                 ratingGauge.update();
             }
-
 
             updateBarChart(employees[0]);
             updateRatingGauge(employees[0]);
@@ -348,7 +340,7 @@ salary of each employee *@
                     scales: {
                         r: {
                             pointLabels: {
-                                display: true,
+                                display: false,
                                 centerPointLabels: true,
                                 font: {
                                     size: 12
@@ -362,6 +354,51 @@ salary of each employee *@
                         }
                     }
                 }
+            });
+
+            var eventData = employees.map(function (employee) {
+                return employee.events;
+            });
+
+            var ctxPie = document.getElementById('eventsPieChart').getContext('2d');
+            var eventsPieChart = new Chart(ctxPie, {
+                type: 'pie',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Number of Events by Employee',
+                        data: eventData,
+                        backgroundColor: barColors,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false,
+                        }
+                    }
+                }
+            });
+
+            document.querySelectorAll('#employeeList li').forEach(function (li) {
+                li.addEventListener('click', function () {
+                    var index = this.dataset.index;
+                    var selectedEmployee = employees[index];
+
+                    meetingsDonutChart.setActiveElements([{ datasetIndex: 0, index: index }]);
+                    meetingsDonutChart.update();
+
+                    eventsPieChart.setActiveElements([{ datasetIndex: 0, index: index }]);
+                    eventsPieChart.update();
+
+                    salaryPolar.setActiveElements([{ datasetIndex: 0, index: index }]);
+                    salaryPolar.update();
+
+                    updateBarChart(selectedEmployee);
+                    updateRatingGauge(selectedEmployee);
+                });
             });
 
         });
