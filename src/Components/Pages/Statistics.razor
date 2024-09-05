@@ -21,6 +21,7 @@ salary of each employee *@
         <!-- Row 1 -->
         <div class="chart-section">
             <div class="donut-chart-container">
+                    <h3>Number of meetings by employee</h3>
                 <canvas id="meetingsDonutChart"></canvas>
             </div>
             <div class="employee-list-section">
@@ -29,38 +30,99 @@ salary of each employee *@
                     <ul id="employeeList"></ul>
                 </div>
             </div>
+            <div class="line-chart-section">
+                <h3>Client Meetings Over Time</h3>
+                <canvas id="meetingsBarChart"></canvas>
+            </div>
         </div>
 
         <!-- Row 2 -->
-        <div class="line-chart-section">
-            <h3>Client Meetings Over Time</h3>
-            <canvas id="meetingsBarChart"></canvas>
+        <div class="chart-section">
+            <div class="polar-list-section">
+                <h3>Employee Salary</h3>
+                <canvas id="SalaryPolar"></canvas>
+            </div>
+            <div class="polar-list-section">
+                <h3>GAUGE</h3>
+                <canvas id="RatingGauge"></canvas>
+            </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-gauge@0.4.0/dist/chartjs-gauge.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var employees = [
                 {
                     name: 'John Doe',
                     meetings: 12,
-                    meetingDates: ['2024-01-05', '2024-02-12', '2024-02-19', '2024-02-01', '2024-03-07', '2024-03-14']
+                    meetingDates: ['2024-01-05', '2024-02-12', '2024-02-19', '2024-02-01', '2024-03-07', '2024-03-14'],
+                    salary: 8450,
+                    rating: 4.1
                 },
                 {
                     name: 'Jane Smith',
                     meetings: 19,
-                    meetingDates: ['2024-01-02', '2024-01-09', '2024-01-16', '2024-02-03', '2024-02-10']
+                    meetingDates: ['2024-01-02', '2024-01-09', '2024-01-16', '2024-02-03', '2024-02-10'],
+                    salary: 6700,
+                    rating: 1.5
                 },
                 {
                     name: 'Michael Johnson',
                     meetings: 3,
-                    meetingDates: ['2024-04-04', '2024-04-25', '2024-07-08']
+                    meetingDates: ['2024-04-04', '2024-04-25', '2024-07-08'],
+                    salary: 8164,
+                    rating: 2.1
                 },
                 {
                     name: 'Emily Davis',
                     meetings: 5,
-                    meetingDates: ['2024-10-03', '2024-03-17', '2024-10-31', '2024-11-15']
+                    meetingDates: ['2024-10-03', '2024-10-31', '2024-11-15'],
+                    salary: 4210,
+                    rating: 3.8
+                },
+                {
+                    name: 'Jean Davis',
+                    meetings: 5,
+                    meetingDates: ['2024-10-03', '2024-03-17', '2024-10-31'],
+                    salary: 6613,
+                    rating: 2.9
+                },
+                {
+                    name: 'Marc Davis',
+                    meetings: 5,
+                    meetingDates: ['2024-10-31', '2024-11-15'],
+                    salary: 135,
+                    rating: 0.4
+                },
+                {
+                    name: 'Elthon Davis',
+                    meetings: 5,
+                    meetingDates: ['2024-10-03', '2024-03-17', '2024-11-15'],
+                    salary: 7920,
+                    rating: 3.7
+                },
+                {
+                    name: 'John Davis',
+                    meetings: 5,
+                    meetingDates: ['2024-10-03', '2024-03-17', '2024-10-31', '2024-11-15'],
+                    salary: 2680,
+                    rating: 2.6
+                },
+                {
+                    name: 'Carotte Davis',
+                    meetings: 5,
+                    meetingDates: ['2024-03-17', '2024-10-31', '2024-11-15'],
+                    salary: 1760,
+                    rating: 4.9
+                },
+                {
+                    name: 'Android Davis',
+                    meetings: 5,
+                    meetingDates: ['2024-10-03', '2024-11-15'],
+                    salary: 4912,
+                    rating: 3.0
                 },
             ];
 
@@ -122,6 +184,7 @@ salary of each employee *@
                     meetingsDonutChart.update();
 
                     updateBarChart(selectedEmployee);
+                    updateGaugeChart(selectedEmployee);
                 });
             });
 
@@ -197,6 +260,87 @@ salary of each employee *@
             }
 
             updateBarChart(employees[0]);
+
+            var ctxPolar = document.getElementById('SalaryPolar').getContext('2d');
+
+            var salaryPolar = new Chart(ctxPolar, {
+                type: 'polarArea',
+                data: {
+                    labels: employees.map(employee => employee.name), // Use employee names as labels
+                    datasets: [{
+                        label: 'Employee Salary',
+                        data: employees.map(employee => employee.salary), // Use employee salaries as data
+                        backgroundColor: function (context) {
+                            var index = context.dataIndex;
+                            return barColors[index % barColors.length]; // Use the color array for background colors
+                        },
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        r: {
+                            pointLabels: {
+                                display: true,
+                                centerPointLabels: true,
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false // Disable the legend here
+                        }
+                    }
+                }
+            });
+
+            var ctxGauge = document.getElementById('RatingGauge').getContext('2d');
+
+            // Example configuration for the gauge chart
+            var ratingGauge = new Chart(ctxGauge, {
+                type: 'gauge',
+                data: {
+                    labels: ['0', '1', '2', '3', '4', '5'], // These labels will appear on the gauge
+                    datasets: [{
+                        data: [5], // Maximum value is 5 for rating
+                        value: employees[0].rating, // Set the initial rating of the first employee
+                        backgroundColor: ['#ff0000', '#ff9900', '#ffff00', '#00ff00', '#00cc00'],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    needle: {
+                        radiusPercentage: 2,
+                        widthPercentage: 3.2,
+                        lengthPercentage: 80,
+                        color: 'rgba(0, 0, 0, 1)'
+                    },
+                    valueLabel: {
+                        formatter: Math.round
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    layout: {
+                        padding: {
+                            bottom: 10
+                        }
+                    }
+                }
+            });
+
+            function updateGaugeChart(employee) {
+                ratingGauge.data.datasets[0].value = employee.rating; // Update the gauge with the new rating
+                ratingGauge.update();
+            }
+
         });
     </script>
 </body>
