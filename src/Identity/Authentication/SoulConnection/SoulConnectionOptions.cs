@@ -7,6 +7,4 @@ public class SoulConnectionOptions
     public Uri Authority { get; set; } = new(SoulConnectionDefaults.Authority);
 
     public string LoginEndpoint { get; set; } = SoulConnectionDefaults.LoginEndpoint;
-
-    public string AuthenticationEndpoint { get; set; } = SoulConnectionDefaults.AuthenticationEndpoint;
 }

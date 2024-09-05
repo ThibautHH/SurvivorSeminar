@@ -28,9 +28,11 @@ builder.Services.AddAuthentication(options =>
     .AddCookie(SoulConnectionDefaults.AuthenticationScheme, "Soul Connection", SoulConnectionDefaults.Configure)
     .AddIdentityCookies();
 
-builder.Services.AddSoulConnection(builder.Configuration.GetRequiredSection($"ExternalLogin:{SoulConnectionDefaults.AuthenticationScheme}"));
+builder.Services.AddSoulConnection(builder.Configuration.GetRequiredSection(SoulConnectionDefaults.AuthenticationScheme));
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+    ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+if (!EF.IsDesignTime)
 #pragma warning disable ASP0000 // Do not call 'IServiceCollection.BuildServiceProvider' in 'ConfigureServices'
 using (var scope = new ServiceCollection().AddDbContext<IdentityDbContext>(options => options.UseSqlite(connectionString))
         .BuildServiceProvider()
