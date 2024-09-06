@@ -1,0 +1,99 @@
+@page "/events"
+
+<div class="header">
+    <h1>Events</h1>
+    <hr />
+</div>
+
+<div class="events-container">
+    <div id="map"></div>
+
+    <div class="events-list" id="eventsList">
+
+    </div>
+</div>
+
+<template id="eventCardTemplate">
+    <div class="event-card">
+        <div>
+            <strong class="event-title"></strong><br />
+            <span class="event-location"></span><br />
+            <span class="event-participants"></span>
+        </div>
+        <div class="event-date"></div>
+    </div>
+</template>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+<script>
+    var events = [
+        {
+            title: "Speed Dating",
+            location: "Café Michel",
+            maxParticipants: 20,
+            date: "22/04/2024",
+            coordinates: [48.8566, 2.3522]
+        },
+        {
+            title: "Coaching Meeting",
+            location: "Salle Pleyel",
+            maxParticipants: 1000,
+            date: "15/05/2024",
+            coordinates: [48.8576, 2.3450]
+        },
+        {
+            title: "Dating Activity",
+            location: "Musée d'Orsay",
+            maxParticipants: 200,
+            date: "10/06/2024",
+            coordinates: [48.8530, 2.3499]
+        },
+        {
+            title: "How to Love for Dummies",
+            location: "Parking Carfour",
+            maxParticipants: 50,
+            date: "05/07/2024",
+            coordinates: [48.8550, 2.3500]
+        },
+        {
+            title: "Karaoké",
+            location: "O'ptit Bar",
+            maxParticipants: 100,
+            date: "20/07/2024",
+            coordinates: [48.8600, 2.3400]
+        },
+        {
+            title: "Compatibility Test Meeting",
+            location: "Je sais pas trop où",
+            maxParticipants: 500,
+            date: "30/08/2024",
+            coordinates: [48.8555, 2.3550]
+        }
+    ];
+
+    var map = L.map('map').setView([48.8566, 2.3522], 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19
+    }).addTo(map);
+
+    var eventsList = document.getElementById('eventsList');
+    var template = document.getElementById('eventCardTemplate').content;
+
+    events.forEach(function(event) {
+        L.marker(event.coordinates)
+            .addTo(map)
+            .bindPopup('<b>' + event.title + '</b><br>' + event.location);
+
+        var eventCard = document.importNode(template, true);
+
+        eventCard.querySelector('.event-title').textContent = event.title;
+        eventCard.querySelector('.event-location').textContent = `📍 ${event.location}`;
+        eventCard.querySelector('.event-participants').textContent = `Max participants : ${event.maxParticipants}`;
+        eventCard.querySelector('.event-date').textContent = event.date;
+
+        eventsList.appendChild(eventCard);
+    });
+</script>
