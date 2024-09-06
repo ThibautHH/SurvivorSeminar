@@ -110,7 +110,7 @@
 
 .nav-item ::deep a.active {
     background-color: #888484;
-    color: white;
+    color: #323432;
     /* border-bottom: 3px solid #323432; */
 }
 

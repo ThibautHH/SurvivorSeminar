@@ -1,19 +1,21 @@
+body {
+    font-family: 'SUSE', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
 .header {
     width: 100%;
     text-align: left;
     margin-bottom: 10px;
+    border-bottom: 3px solid #323432;
 }
 
 .header h1 {
     margin: 0;
-}
-
-.header hr {
-    border: 0;
-    height: 2px;
-    background: black;
-    margin-top: 10px;
-    width: 100%;
+    font-size: 60px;
 }
 
 .events-container {
