@@ -14,6 +14,8 @@ public class DefaultSoulConnectionService(HttpClient backchannel,
 
     public async Task<LoginResult> LoginAsync(string email, string password, CancellationToken cancellationToken = default)
     {
+        logger.LogTrace("Logging in user '{Email}'.", email);
+
         var message = new HttpRequestMessage(HttpMethod.Post,
             new Uri(optionsMonitor.CurrentValue.Authority, optionsMonitor.CurrentValue.LoginEndpoint))
         {
@@ -21,6 +23,11 @@ public class DefaultSoulConnectionService(HttpClient backchannel,
         };
 
         var response = await backchannel.SendAsync(message, cancellationToken);
+
+        if (!response.IsSuccessStatusCode)
+            logger.LogDebug("Failed to log in user '{Email}'. Status code: {StatusCode}.", email, response.StatusCode);
+        else
+            logger.LogDebug("Successfully logged in user '{Email}'.", email);
 
         LoginResponse loginResponse;
 
