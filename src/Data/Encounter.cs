@@ -1,6 +1,6 @@
 namespace SoulDashboard.Data;
 
-public class Encounter
+public partial class Encounter
 {
     public int Id { get; set; }
 

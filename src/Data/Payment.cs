@@ -1,6 +1,6 @@
 namespace SoulDashboard.Data;
 
-public class Payment
+public partial class Payment
 {
     public int Id { get; set; }
 

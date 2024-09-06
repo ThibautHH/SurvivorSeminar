@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace SoulDashboard.Data;
 
-public class Event
+public partial class Event
 {
     public int Id { get; set; }
 

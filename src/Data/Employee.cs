@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace SoulDashboard.Data;
 
-public class Employee : IdentityUser<int>
+public partial class Employee : IdentityUser<int>
 {
     [ProtectedPersonalData]
     public string Name { get; set; } = string.Empty;

@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace SoulDashboard.Data;
 
-public class Customer
+public partial class Customer
 {
     public int Id { get; set; }
 

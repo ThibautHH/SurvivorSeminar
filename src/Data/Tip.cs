@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace SoulDashboard.Data;
 
-public class Tip
+public partial class Tip
 {
     public int Id { get; set; }
 
