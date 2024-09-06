@@ -4,6 +4,11 @@
 <!DOCTYPE html>
 <html lang="fr">
 
+<div class="header">
+    <h1>Statistics</h1>
+    <hr />
+</div>
+
 <head>
     <link href="https://fonts.googleapis.com/css2?family=SUSE:wght@100..800&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
@@ -134,13 +139,21 @@
             ];
 
             var barColors = [
-                '#fd8644',
+                '#ededed',
+                '#d1d1d1',
+                '#a6a6a6',
+                '#7a7a7a',
+                '#575757',
+                '#2e2d2d',
+                '#171717'
+
+                @* '#fd8644',
                 '#f37159',
                 '#ef6962',
                 '#e95c6f',
                 '#e45478',
                 '#e04b81',
-                '#dd4587'
+                '#dd4587' *@
             ];
 
             var employeeList = document.getElementById('employeeList');
@@ -194,8 +207,8 @@
                             var index = context.dataIndex;
                             return barColors[index % barColors.length];
                         },
-                        borderRadius: 12,
-                        borderWidth: 1
+                        @* borderRadius: 12, *@
+                        borderWidth: 2
                     }]
                 },
                 options: {

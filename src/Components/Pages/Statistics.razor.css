@@ -6,6 +6,24 @@ body {
     color: #333;
 }
 
+.header {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.header h1 {
+    margin: 0;
+}
+
+.header hr {
+    border: 0;
+    height: 2px;
+    background: black;
+    margin-top: 10px;
+    width: 100%;
+}
+
 .container {
     max-width: 1500px;
     margin: 0 auto;
@@ -25,9 +43,11 @@ body {
 .donut-chart-container {
     flex: 1;
     padding: 20px;
-    background-color: #fff;
-    border-radius: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 2px solid #ccc;
+    background-color: #ececec;
+    /* background-color: #fff; */
+    /* border-radius: 15px; */
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
     min-width: 200px;
     max-width: 350px;
 }
@@ -35,18 +55,22 @@ body {
 .employee-list-section {
     flex: 1;
     padding: 20px;
-    background-color: #fff;
-    border-radius: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 2px solid #ccc;
+    background-color: #ececec;
+    /* background-color: #fff; */
+    /* border-radius: 15px; */
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
     max-width: 300px;
 }
 
 .polar-list-section {
     flex: 1;
     padding: 20px;
-    background-color: #fff;
-    border-radius: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 2px solid #ccc;
+    background-color: #ececec;
+    /* background-color: #fff; */
+    /* border-radius: 15px; */
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
     min-width: 300px;
     max-width: 500px;
 }
@@ -62,17 +86,21 @@ body {
 .gauge-list-section {
     flex: 1;
     padding: 20px;
-    background-color: #fff;
-    border-radius: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 2px solid #ccc;
+    background-color: #ececec;
+    /* background-color: #fff; */
+    /* border-radius: 15px; */
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
     min-width: 300px;
 }
 
 .line-chart-section {
     padding: 20px;
-    background-color: #fff;
-    border-radius: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 2px solid #ccc;
+    background-color: #ececec;
+    /* background-color: #fff; */
+    /* border-radius: 15px; */
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
     width: 100%;
     max-width: 800px;
 }

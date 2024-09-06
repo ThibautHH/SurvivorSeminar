@@ -21,9 +21,28 @@
             background-color: yellow;
         }
 
+        .header {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .header h1 {
+            margin: 0;
+        }
+        
+        .header hr {
+            border: 0;
+            height: 2px;
+            background: black;
+            margin-top: 10px;
+            width: 100%;
+        }
+
 .canvas-container {
     width: 100%;
     max-width: 500px;
+    margin-top: 130px;
 }
 
 .canvas-row {
