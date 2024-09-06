@@ -19,6 +19,18 @@ public static class IServiceCollectionExtensions
             client.DefaultRequestHeaders.Add(SoulConnectionDefaults.GroupTokenHeaderName, options.GroupToken);
         });
 
+        services.AddHttpClient<SoulConnectionDataService>((services, client) =>
+        {
+            var options = services.GetRequiredService<IOptionsMonitor<SoulConnectionOptions>>().CurrentValue;
+            client.BaseAddress = options.Synchronization.Host;
+            client.DefaultRequestHeaders.Add(SoulConnectionDefaults.GroupTokenHeaderName, options.GroupToken);
+            var credentials = options.Synchronization.Credentials;
+            var result = services.GetRequiredService<ISoulConnectionService>().LoginAsync(credentials.Username, credentials.Password).Result;
+            if (!result.Succeded)
+                throw new InvalidOperationException("Invalid credentials for Soul Connection synchronization.");
+            client.DefaultRequestHeaders.Authorization = new("Bearer", result.AccessToken);
+        });
+
         return services;
     }
 }
