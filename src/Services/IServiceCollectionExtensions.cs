@@ -31,6 +31,8 @@ public static class IServiceCollectionExtensions
             client.DefaultRequestHeaders.Authorization = new("Bearer", result.AccessToken);
         });
 
+        services.AddHostedService<SoulConnectionSynchronizationService>();
+
         return services;
     }
 }
