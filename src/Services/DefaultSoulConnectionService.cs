@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 using Microsoft.Extensions.Options;
-using SoulDashboard.Identity.Authentication.SoulConnection;
+using SoulDashboard.Options;
 using SoulDashboard.Services.Data;
 
 namespace SoulDashboard.Services;
@@ -17,7 +17,7 @@ public class DefaultSoulConnectionService(HttpClient backchannel,
         logger.LogTrace("Logging in user '{Email}'.", email);
 
         var message = new HttpRequestMessage(HttpMethod.Post,
-            new Uri(optionsMonitor.CurrentValue.Authority, optionsMonitor.CurrentValue.LoginEndpoint))
+            new Uri(optionsMonitor.CurrentValue.Authentication.Authority, optionsMonitor.CurrentValue.Authentication.LoginEndpoint))
         {
             Content = JsonContent.Create(new { Email = email, Password = password })
         };

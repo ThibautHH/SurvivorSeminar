@@ -9,6 +9,7 @@ using SoulDashboard.Data;
 using SoulDashboard.Data.Migrations;
 using SoulDashboard.Database.Contexts;
 using SoulDashboard.Identity.Authentication.SoulConnection;
+using SoulDashboard.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
