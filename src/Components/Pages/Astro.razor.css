@@ -1,19 +1,17 @@
+body {
+    font-family: 'SUSE', sans-serif;
+    background-color: #f4f4f4;
+}
+
 .header {
     width: 100%;
     text-align: left;
     margin-bottom: 10px;
+    border-bottom: 3px solid #323432;
 }
 
 .header h1 {
     margin: 0;
-}
-
-.header hr {
-    border: 0;
-    height: 2px;
-    background: black;
-    margin-top: 10px;
-    width: 100%;
 }
 
 .astro-container {

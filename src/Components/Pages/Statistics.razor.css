@@ -10,18 +10,12 @@ body {
     width: 100%;
     text-align: left;
     margin-bottom: 10px;
+    border-bottom: 3px solid #323432;
 }
 
 .header h1 {
     margin: 0;
-}
-
-.header hr {
-    border: 0;
-    height: 2px;
-    background: black;
-    margin-top: 10px;
-    width: 100%;
+    font-size: 60px;
 }
 
 .container {
@@ -43,8 +37,8 @@ body {
 .donut-chart-container {
     flex: 1;
     padding: 20px;
-    border: 2px solid #ccc;
-    background-color: #ececec;
+    border: 3px solid #323432;
+    /* background-color: #ececec; */
     /* background-color: #fff; */
     /* border-radius: 15px; */
     /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
@@ -55,8 +49,8 @@ body {
 .employee-list-section {
     flex: 1;
     padding: 20px;
-    border: 2px solid #ccc;
-    background-color: #ececec;
+    border: 3px solid #323432;
+    /* background-color: #ececec; */
     /* background-color: #fff; */
     /* border-radius: 15px; */
     /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
@@ -66,8 +60,8 @@ body {
 .polar-list-section {
     flex: 1;
     padding: 20px;
-    border: 2px solid #ccc;
-    background-color: #ececec;
+    border: 3px solid #323432;
+    /* background-color: #ececec; */
     /* background-color: #fff; */
     /* border-radius: 15px; */
     /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
@@ -86,8 +80,8 @@ body {
 .gauge-list-section {
     flex: 1;
     padding: 20px;
-    border: 2px solid #ccc;
-    background-color: #ececec;
+    border: 3px solid #323432;
+    /* background-color: #ececec; */
     /* background-color: #fff; */
     /* border-radius: 15px; */
     /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
@@ -96,8 +90,8 @@ body {
 
 .line-chart-section {
     padding: 20px;
-    border: 2px solid #ccc;
-    background-color: #ececec;
+    border: 3px solid #323432;
+    /* background-color: #ececec; */
     /* background-color: #fff; */
     /* border-radius: 15px; */
     /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
