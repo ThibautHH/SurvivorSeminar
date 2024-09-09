@@ -1,0 +1,64 @@
+@using System.Linq.Expressions
+
+<MudAutocomplete @ref=_input Label="@Label" @bind-Value="Value"
+    Class="mx-2"
+    SearchFunc="Search"
+    ToStringFunc="@(c => c is null ? string.Empty : $"{c.Name} {c.Surname}")"
+    For="ValueExpression" OnlyValidateIfDirty="true"
+    Clearable="true" OnClearButtonClick="Clear" />
+
+@code {
+    private Customer? _value;
+
+    private string _label = default!;
+
+    private MudAutocomplete<Customer?> _input = default!;
+
+#pragma warning disable BL0007
+    [Parameter]
+    public required string Label
+    {
+        get => _label + (!string.IsNullOrEmpty(Value?.AstrologicalSign)
+            ? $": {Value.AstrologicalSign}"
+            : string.Empty);
+        set => _label = value;
+    }
+
+    [Parameter]
+    public Customer? Value
+    {
+        get => _value;
+        set
+        {
+            if (_value != value)
+            {
+                _value = value;
+                ValueChanged.InvokeAsync(value);
+            }
+        }
+    }
+#pragma warning restore BL0007
+
+    [Parameter]
+    public EventCallback<Customer?> ValueChanged { get; set; }
+
+    [Parameter]
+    public required Expression<Func<Customer?>> ValueExpression { get; set; }
+
+    [Parameter]
+    public required IEnumerable<Customer> Customers { get; set; }
+
+    [Parameter]
+    public required Func<Customer> OppositeCustomer { get; set; }
+
+    private Task Clear()
+    {
+        this.Value = null;
+        return _input.ResetAsync();
+    }
+
+    private Task<IEnumerable<Customer?>> Search(string? value, CancellationToken cancellationToken = default) => Task.FromResult(
+        Customers.Where(c => c != Value && c != OppositeCustomer()
+                && (Value is null && c.Name.Contains(value ?? string.Empty, StringComparison.CurrentCultureIgnoreCase)))
+            .DefaultIfEmpty());
+}
