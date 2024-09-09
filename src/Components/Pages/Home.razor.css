@@ -1,0 +1,66 @@
+::deep .quickgrid[theme=corporate] {
+    font-family: 'Comic Sans MS', 'Times New Roman', serif;
+    color: #323432;
+}
+
+    ::deep .quickgrid[theme=corporate] .col-title {
+        gap: 0.8rem;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    ::deep .quickgrid[theme=corporate] .sort-indicator {
+        color: blue;
+    }
+
+        ::deep .quickgrid[theme=corporate] button.col-title:hover, ::deep .quickgrid[theme=corporate] .col-options-button:hover {
+            background-color: hotpink;
+        }
+
+        ::deep .quickgrid[theme=corporate] button.col-title:active, ::deep .quickgrid[theme=corporate] .col-options-button:active {
+            background-color: yellow;
+        }
+
+        .header {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 10px;
+            border-bottom: 3px solid #323432;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 100px;
+        }
+
+        .header h2 {
+            margin-top: -28px;
+            font-size: 60px;
+        }
+
+.canvas-container {
+    width: 100%;
+    max-width: 500px;
+    margin-top: 130px;
+}
+
+.canvas-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.canvas-container canvas {
+    width: 100%;
+    height: auto;
+}
+
+.grid {
+    width: 100%;
+    max-width: 1000px;
+}
+
+body {
+    font-family: 'SUSE', sans-serif;
+    background-color: #f4f4f4;
+}

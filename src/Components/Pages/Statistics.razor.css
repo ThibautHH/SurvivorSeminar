@@ -1,0 +1,124 @@
+body {
+    font-family: 'SUSE', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.header {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 10px;
+    border-bottom: 3px solid #323432;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 60px;
+}
+
+.container {
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.chart-section {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.donut-chart-container {
+    flex: 1;
+    padding: 20px;
+    border: 3px solid #323432;
+    /* background-color: #ececec; */
+    /* background-color: #fff; */
+    /* border-radius: 15px; */
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+    min-width: 200px;
+    max-width: 350px;
+}
+
+.employee-list-section {
+    flex: 1;
+    padding: 20px;
+    border: 3px solid #323432;
+    /* background-color: #ececec; */
+    /* background-color: #fff; */
+    /* border-radius: 15px; */
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+    max-width: 300px;
+}
+
+.polar-list-section {
+    flex: 1;
+    padding: 20px;
+    border: 3px solid #323432;
+    /* background-color: #ececec; */
+    /* background-color: #fff; */
+    /* border-radius: 15px; */
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+    min-width: 300px;
+    max-width: 500px;
+}
+
+.chart-section {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+
+.gauge-list-section {
+    flex: 1;
+    padding: 20px;
+    border: 3px solid #323432;
+    /* background-color: #ececec; */
+    /* background-color: #fff; */
+    /* border-radius: 15px; */
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+    min-width: 300px;
+}
+
+.line-chart-section {
+    padding: 20px;
+    border: 3px solid #323432;
+    /* background-color: #ececec; */
+    /* background-color: #fff; */
+    /* border-radius: 15px; */
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+    width: 100%;
+    max-width: 800px;
+}
+
+.scrollable-list {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.scrollable-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.scrollable-list ul li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+}
+
+.scrollable-list ul li:hover {
+    background-color: #eee;
+}
+
+.scrollable-list ul li.active {
+    background-color: #ccc;
+}
