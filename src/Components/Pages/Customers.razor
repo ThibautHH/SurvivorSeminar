@@ -1,0 +1,145 @@
+@page "/customers"
+
+<div class="customer-container">
+    <h1>Customers</h1>
+
+    <div class="customer-selection">
+        <label for="customerSelect">Customer :</label>
+        <select id="customerSelect" class="customer-dropdown">
+
+        </select>
+    </div>
+
+    <div id="customerInfo" class="customer-info">
+
+    </div>
+
+    <div class="grids-container">
+        <div class="grid-section">
+            <h3>Payments</h3>
+            <table id="paymentsTable" class="payments-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Amount</th>
+                        <th>Comment</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+
+        <div class="grid-section">
+            <h3>Meetings</h3>
+            <table id="meetingsTable" class="meetings-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Rating</th>
+                        <th>Report</th>
+                        <th>Source</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    const customersList = [
+        {
+            name: "Louis Delanata",
+            birthDate: "09/06/1996",
+            address: "3 Rue de la Tour 34000 Montpellier, France",
+            photoUrl: "https://via.placeholder.com/150/FFFF00",
+            payments: [
+                { date: "2023-12-01", amount: "200€", comment: "Subscription" },
+                { date: "2024-01-10", amount: "300€", comment: "Subscription" },
+                { date: "2024-02-20", amount: "200€", comment: "Subscription" }
+            ],
+            meetings: [
+                { date: "2024-02-14", rating: "3/5", report: "super moment", source: "Application" },
+                { date: "2024-03-12", rating: "4/5", report: "Direction les Bahamas", source: "La compagnie aérienne" },
+                { date: "2024-03-20", rating: "1/5", report: "Je me suis perdu", source: "Au bar" }
+            ]
+        },
+        {
+            name: "Jean Jack",
+            birthDate: "01/02/2002",
+            address: "14 rue des plages, France",
+            photoUrl: "https://via.placeholder.com/150/00FFFF",
+            payments: [
+                { date: "2003-01-02", amount: "600€", comment: "Subscription" },
+                { date: "2020-06-11", amount: "100€", comment: "Subscription" },
+                { date: "2024-09-30", amount: "150€", comment: "Subscription" }
+            ],
+            meetings: [
+                { date: "2024-01-20", rating: "1/5", report: "elle n'a pas voulu payer", source: "Meeting" },
+                { date: "2024-12-03", rating: "5/5", report: "j'ai pécho", source: "Club" },
+                { date: "2023-02-17", rating: "3/5", report: "truc de fou", source: "Carrefour" }
+            ]
+        }
+    ];
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const customerSelect = document.getElementById("customerSelect");
+        const customerInfo = document.getElementById("customerInfo");
+        const paymentsTableBody = document.getElementById("paymentsTable").querySelector("tbody");
+        const meetingsTableBody = document.getElementById("meetingsTable").querySelector("tbody");
+
+        customersList.forEach((customer, index) => {
+            const option = document.createElement("option");
+            option.value = index;
+            option.textContent = customer.name;
+            customerSelect.appendChild(option);
+        });
+
+        displayCustomerInfo(0);
+
+        customerSelect.addEventListener("change", function () {
+            const selectedIndex = customerSelect.value;
+            displayCustomerInfo(selectedIndex);
+        });
+
+        function displayCustomerInfo(index) {
+            const customer = customersList[index];
+            
+            customerInfo.innerHTML = `
+                <div class="customer-details">
+                    <h2>${customer.name}</h2>
+                    <p class="customer-birthdate">Date of Birth: ${customer.birthDate}</p>
+                    <p class="customer-address">Address: ${customer.address}</p>
+                </div>
+                <img src="${customer.photoUrl}" alt="${customer.name}" class="customer-photo" />
+            `;
+            
+            paymentsTableBody.innerHTML = "";
+            customer.payments.forEach(payment => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${payment.date}</td>
+                    <td>${payment.amount}</td>
+                    <td>${payment.comment}</td>
+                `;
+                paymentsTableBody.appendChild(row);
+            });
+
+            meetingsTableBody.innerHTML = "";
+            customer.meetings.forEach(meeting => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${meeting.date}</td>
+                    <td>${meeting.rating}</td>
+                    <td>${meeting.report}</td>
+                    <td>${meeting.source}</td>
+                `;
+                meetingsTableBody.appendChild(row);
+            });
+        }
+    });
+</script>
