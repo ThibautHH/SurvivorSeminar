@@ -1,52 +1,64 @@
-@page "/customers"
+@page "/customer"
+@using Microsoft.AspNetCore.Components.Web
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<PageTitle>Customers</PageTitle>
+
+<div class="header">
+    <h1>Customers</h1>
+</div>
 
 <div class="customer-container">
-    <h1>Customers</h1>
-
     <div class="customer-selection">
-        <label for="customerSelect">Customer :</label>
-        <select id="customerSelect" class="customer-dropdown">
-
+        <label for="customerSelect">Customer:</label>
+        <select id="customerSelect" onchange="displayCustomerInfo()" class="customer-dropdown">
+            <option value="">-- Select a customer --</option>
         </select>
     </div>
-
     <div id="customerInfo" class="customer-info">
-
+        <div class="customer-details">
+            <h2 id="name"></h2>
+            <div class="customer-birthdate">
+                <p id="birthDate"></p>
+                <p id="address"></p>
+            </div>
+        </div>
+        <div class="customer-photo">
+            <img id="photo" alt="Customer Photo" class="picture">
+        </div>
     </div>
-
-    <div class="grids-container">
-        <div class="grid-section">
-            <h3>Payments</h3>
-            <table id="paymentsTable" class="payments-table">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Amount</th>
-                        <th>Comment</th>
-                    </tr>
-                </thead>
-                <tbody>
-
-                </tbody>
-            </table>
-        </div>
-
-        <div class="grid-section">
-            <h3>Meetings</h3>
-            <table id="meetingsTable" class="meetings-table">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Rating</th>
-                        <th>Report</th>
-                        <th>Source</th>
-                    </tr>
-                </thead>
-                <tbody>
-
-                </tbody>
-            </table>
-        </div>
+</div>
+<div class="container">
+    <div class="table-section">
+        <h3>Payments</h3>
+        <table id="paymentsTable">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Comment</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <div class="table-section">
+        <h3>Meetings</h3>
+        <table id="meetingsTable">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Rating</th>
+                    <th>Report</th>
+                    <th>Source</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
     </div>
 </div>
 
@@ -86,60 +98,49 @@
         }
     ];
 
-    document.addEventListener("DOMContentLoaded", function () {
-        const customerSelect = document.getElementById("customerSelect");
-        const customerInfo = document.getElementById("customerInfo");
-        const paymentsTableBody = document.getElementById("paymentsTable").querySelector("tbody");
-        const meetingsTableBody = document.getElementById("meetingsTable").querySelector("tbody");
-
+    function populateDropdown() {
+        const select = document.getElementById('customerSelect');
         customersList.forEach((customer, index) => {
-            const option = document.createElement("option");
+            const option = document.createElement('option');
             option.value = index;
             option.textContent = customer.name;
-            customerSelect.appendChild(option);
+            select.appendChild(option);
         });
+    }
 
-        displayCustomerInfo(0);
-
-        customerSelect.addEventListener("change", function () {
-            const selectedIndex = customerSelect.value;
-            displayCustomerInfo(selectedIndex);
-        });
-
-        function displayCustomerInfo(index) {
-            const customer = customersList[index];
-            
-            customerInfo.innerHTML = `
-                <div class="customer-details">
-                    <h2>${customer.name}</h2>
-                    <p class="customer-birthdate">Date of Birth: ${customer.birthDate}</p>
-                    <p class="customer-address">Address: ${customer.address}</p>
-                </div>
-                <img src="${customer.photoUrl}" alt="${customer.name}" class="customer-photo" />
-            `;
-            
-            paymentsTableBody.innerHTML = "";
-            customer.payments.forEach(payment => {
-                const row = document.createElement("tr");
-                row.innerHTML = `
-                    <td>${payment.date}</td>
-                    <td>${payment.amount}</td>
-                    <td>${payment.comment}</td>
-                `;
-                paymentsTableBody.appendChild(row);
-            });
-
-            meetingsTableBody.innerHTML = "";
-            customer.meetings.forEach(meeting => {
-                const row = document.createElement("tr");
-                row.innerHTML = `
-                    <td>${meeting.date}</td>
-                    <td>${meeting.rating}</td>
-                    <td>${meeting.report}</td>
-                    <td>${meeting.source}</td>
-                `;
-                meetingsTableBody.appendChild(row);
-            });
+    function displayCustomerInfo() {
+        const index = document.getElementById('customerSelect').value;
+        if (index === "") {
+            return;
         }
-    });
+
+        const customer = customersList[index];
+        document.getElementById('name').textContent = customer.name;
+        document.getElementById('birthDate').textContent = `${customer.birthDate}`;
+        document.getElementById('address').textContent = `Address: ${customer.address}`;
+        document.getElementById('photo').src = customer.photoUrl;
+
+        const paymentsTableBody = document.getElementById('paymentsTable').getElementsByTagName('tbody')[0];
+        paymentsTableBody.innerHTML = "";
+        customer.payments.forEach(payment => {
+            const row = paymentsTableBody.insertRow();
+            row.insertCell(0).textContent = payment.date;
+            row.insertCell(1).textContent = payment.amount;
+            row.insertCell(2).textContent = payment.comment;
+        });
+
+        const meetingsTableBody = document.getElementById('meetingsTable').getElementsByTagName('tbody')[0];
+        meetingsTableBody.innerHTML = "";
+        customer.meetings.forEach(meeting => {
+            const row = meetingsTableBody.insertRow();
+            row.insertCell(0).textContent = meeting.date;
+            row.insertCell(1).textContent = meeting.rating;
+            row.insertCell(2).textContent = meeting.report;
+            row.insertCell(3).textContent = meeting.source;
+        });
+    }
+
+    populateDropdown();
 </script>
+
+</html>

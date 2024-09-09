@@ -1,13 +1,19 @@
 .customer-container {
     font-family: Arial, sans-serif;
     padding: 20px;
-    max-width: 1000px;
     margin: 0 auto;
 }
 
-h1 {
-    font-size: 2em;
-    margin-bottom: 20px;
+.header {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 10px;
+    border-bottom: 3px solid #323432;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 60px;
 }
 
 .customer-selection {
@@ -19,8 +25,7 @@ h1 {
 .customer-dropdown {
     margin-left: 10px;
     padding: 5px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+    border: 3px solid #323432;
 }
 
 .customer-info {
@@ -28,8 +33,7 @@ h1 {
     align-items: flex-start;
     margin-bottom: 20px;
     padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
+    border-bottom: 3px solid #323432;
 }
 
 .customer-details {
@@ -37,22 +41,24 @@ h1 {
 }
 
 h2 {
-    font-size: 1.5em;
+    font-size: 4em;
     margin-bottom: 5px;
 }
 
 .customer-birthdate, .customer-address {
-    font-size: 1em;
-    color: #555;
+    font-size: 2em;
+    color: #323432;
 }
 
 .customer-photo {
-    width: 100px;
-    height: 100px;
-    border-radius: 8px;
-    margin-left: 20px;
+    width: 156px;
+    height: 200px;
+    margin-right: 150px;
     object-fit: cover;
-    border: 1px solid #ccc;
+}
+
+.picture {
+    border: 3px solid #323432;
 }
 
 .grids-container {
@@ -105,4 +111,30 @@ td {
     .grids-container {
         flex-direction: column;
     }
+}
+
+.space {
+    min-width: 150px;
+}
+
+.container {
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: center;
+}
+
+.table-section {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    flex-wrap: wrap;
+    min-width: 700px;
+}
+
+p {
+    margin-bottom: 0rem;
 }
