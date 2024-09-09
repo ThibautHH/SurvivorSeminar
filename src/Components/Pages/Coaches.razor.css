@@ -29,28 +29,28 @@ h1 {
 }
 
 .coach-table th, .coach-table td {
-    border: 1px solid #000;
+    border: 3px solid #323432;
     padding: 10px;
     text-align: left;
 }
 
 .coach-table th {
-    background-color: #007bff;
-    color: white;
+    background-color: #4682b4;
+    color: #f4f4f4;
 }
 
 .coach-table .even {
-    background-color: #e9ecef;
+    background-color: #f4f4f4;
 }
 
 .coach-table .odd {
-    background-color: #fff;
+    background-color: #f4f4f4;
 }
 
 .customer-list {
     padding: 10px;
-    background-color: #f1f1f1;
-    border-top: 1px solid #000;
+    background-color: #f4f4f4;
+    border-top: 1px solid #323432;
 }
 
 .customer-list ul {
