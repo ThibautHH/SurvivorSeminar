@@ -1,3 +1,8 @@
+body {
+    font-family: 'SUSE', sans-serif;
+    background-color: #f4f4f4;
+}
+
 ::deep .quickgrid[theme=corporate] {
     font-family: 'Comic Sans MS', 'Times New Roman', serif;
     color: #323432;
@@ -62,9 +67,4 @@
 .grid {
     width: 100%;
     max-width: 1000px;
-}
-
-body {
-    font-family: 'SUSE', sans-serif;
-    background-color: #f4f4f4;
 }
