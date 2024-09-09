@@ -4,102 +4,92 @@
     <h1>Clothes</h1>
 </div>
 
-<PageTitle>Clothes</PageTitle>
-
 <div class="container">
-
     <div class="main-content">
-        <div class="scrollable-image-list-container">
-            <div id="image-list" class="scrollable-image-list">
+        <div class="category-display">
+            <div class="arrow left-arrow" onclick="prevImage('hat')">◄</div>
+            <div class="display-box" id="hat-display">
+                <img src="" alt="Hat" />
             </div>
+            <div class="arrow right-arrow" onclick="nextImage('hat')">►</div>
         </div>
-
-        <div class="selection-container">
-            <div class="selection-slot" id="slot-0" onclick="selectSlot(0)"></div>
-            <div class="selection-slot" id="slot-1" onclick="selectSlot(1)"></div>
-            <div class="selection-slot" id="slot-2" onclick="selectSlot(2)"></div>
+        <div class="category-display">
+            <div class="arrow left-arrow" onclick="prevImage('shirt')">◄</div>
+            <div class="display-box" id="shirt-display">
+                <img src="" alt="Shirt" />
+            </div>
+            <div class="arrow right-arrow" onclick="nextImage('shirt')">►</div>
+        </div>
+        <div class="category-display">
+            <div class="arrow left-arrow" onclick="prevImage('pants')">◄</div>
+            <div class="display-box" id="pant-display">
+                <img src="" alt="Pants" />
+            </div>
+            <div class="arrow right-arrow" onclick="nextImage('pants')">►</div>
+        </div>
+        <div class="category-display">
+            <div class="arrow left-arrow" onclick="prevImage('shoes')">◄</div>
+            <div class="display-box" id="shoes-display">
+                <img src="" alt="Shoes" />
+            </div>
+            <div class="arrow right-arrow" onclick="nextImage('shoes')">►</div>
         </div>
     </div>
 </div>
 
 <script>
-    const imageUrls = [
-        "https://via.placeholder.com/150",
-        "https://via.placeholder.com/150/FF0000",
-        "https://via.placeholder.com/150/00FF00",
-        "https://via.placeholder.com/150/0000FF",
-        "https://via.placeholder.com/150/FFFF00",
-        "https://via.placeholder.com/150/FF00FF",
-        "https://via.placeholder.com/150/00FFFF",
-        "https://via.placeholder.com/150/FF4500",
-        "https://via.placeholder.com/150/8A2BE2",
-        "https://via.placeholder.com/150/5F9EA0",
-        "https://via.placeholder.com/150/DC143C",
-        "https://via.placeholder.com/150/7FFF00",
-        "https://via.placeholder.com/150/DAA520",
-        "https://via.placeholder.com/150/4682B4",
-        "https://via.placeholder.com/150/FF6347",
-        "https://via.placeholder.com/150/7B68EE",
-        "https://via.placeholder.com/150/FFD700",
-        "https://via.placeholder.com/150/8B0000",
-        "https://via.placeholder.com/150/ADFF2F",
-        "https://via.placeholder.com/150/FF69B4",
-        "https://via.placeholder.com/150/00BFFF",
-        "https://via.placeholder.com/150/F08080",
-        "https://via.placeholder.com/150/9ACD32",
-        "https://via.placeholder.com/150/FFE4B5",
-        "https://via.placeholder.com/150/000000",
-        "https://via.placeholder.com/150/FF0000",
-        "https://via.placeholder.com/150/00FF00",
-        "https://via.placeholder.com/150/0000FF",
-        "https://via.placeholder.com/150/FFFF00",
-        "https://via.placeholder.com/150/FF00FF",
-        "https://via.placeholder.com/150/00FFFF",
-        "https://via.placeholder.com/150/FF4500",
-        "https://via.placeholder.com/150/8A2BE2",
-        "https://via.placeholder.com/150/5F9EA0",
-        "https://via.placeholder.com/150/DC143C",
-        "https://via.placeholder.com/150/7FFF00",
-        "https://via.placeholder.com/150/DAA520",
-        "https://via.placeholder.com/150/4682B4",
-        "https://via.placeholder.com/150/FF6347",
-        "https://via.placeholder.com/150/7B68EE",
-        "https://via.placeholder.com/150/FFD700",
-        "https://via.placeholder.com/150/8B0000",
-        "https://via.placeholder.com/150/ADFF2F",
-        "https://via.placeholder.com/150/FF69B4",
-        "https://via.placeholder.com/150/00BFFF",
-        "https://via.placeholder.com/150/F08080",
-        "https://via.placeholder.com/150/9ACD32",
-        "https://via.placeholder.com/150/FFE4B5",
-        "https://via.placeholder.com/150/000000"
-    ];
+    const categories = {
+        hat: [
+            "https://via.placeholder.com/150/FF0000",
+            "https://via.placeholder.com/150/00FF00",
+            "https://via.placeholder.com/150/0000FF"
+        ],
+        shirt: [
+            "https://via.placeholder.com/150/FFFF00",
+            "https://via.placeholder.com/150/FF00FF",
+            "https://via.placeholder.com/150/00FFFF"
+        ],
+        pants: [
+            "https://via.placeholder.com/150/FF4500",
+            "https://via.placeholder.com/150/8A2BE2",
+            "https://via.placeholder.com/150/5F9EA0"
+        ],
+        shoes: [
+            "https://via.placeholder.com/150/DC143C",
+            "https://via.placeholder.com/150/7FFF00",
+            "https://via.placeholder.com/150/DAA520"
+        ]
+    };
 
-    const imageListElement = document.getElementById('image-list');
+    const currentIndex = {
+        hat: 0,
+        shirt: 0,
+        pants: 0,
+        shoes: 0
+    };
 
-    imageUrls.forEach(url => {
-        const imgElement = document.createElement('img');
-        imgElement.src = url;
-        imgElement.className = 'image-item';
-        imgElement.onclick = () => selectImage(url);
-        imageListElement.appendChild(imgElement);
-    });
-
-    let selectedSlot = null;
-
-    function selectSlot(slotIndex) {
-        if (selectedSlot !== null) {
-            document.getElementById('slot-' + selectedSlot).classList.remove('selected');
-        }
-
-        selectedSlot = slotIndex;
-        document.getElementById('slot-' + selectedSlot).classList.add('selected');
+    function updateDisplay(category) {
+        const displayBox = document.getElementById(`${category}-display`).querySelector('img');
+        displayBox.src = categories[category][currentIndex[category]];
     }
 
-    function selectImage(imageUrl) {
-        if (selectedSlot !== null) {
-            let slotElement = document.getElementById('slot-' + selectedSlot);
-            slotElement.innerHTML = `<img src="${imageUrl}" class="selected-image" />`;
+    function prevImage(category) {
+        if (currentIndex[category] > 0) {
+            currentIndex[category]--;
+        } else {
+            currentIndex[category] = categories[category].length - 1;
         }
+        updateDisplay(category);
     }
+
+    function nextImage(category) {
+        if (currentIndex[category] < categories[category].length - 1) {
+            currentIndex[category]++;
+        } else {
+            currentIndex[category] = 0;
+        }
+        updateDisplay(category);
+    }
+
+    Object.keys(categories).forEach(category => updateDisplay(category));
 </script>
