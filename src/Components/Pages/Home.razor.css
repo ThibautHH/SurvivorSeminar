@@ -1,3 +1,8 @@
+body {
+    font-family: 'SUSE', sans-serif;
+    background-color: #f4f4f4;
+}
+
 ::deep .quickgrid[theme=corporate] {
     font-family: 'Comic Sans MS', 'Times New Roman', serif;
     color: #323432;
@@ -13,13 +18,17 @@
         color: blue;
     }
 
-        ::deep .quickgrid[theme=corporate] button.col-title:hover, ::deep .quickgrid[theme=corporate] .col-options-button:hover {
-            background-color: hotpink;
+        ::deep .quickgrid[theme=corporate] button.col-title, ::deep .quickgrid[theme=corporate] .col-options-button {
+            background-color: #888484;
         }
 
-        ::deep .quickgrid[theme=corporate] button.col-title:active, ::deep .quickgrid[theme=corporate] .col-options-button:active {
-            background-color: yellow;
+        ::deep .quickgrid[theme=corporate] button.col-title:hover, ::deep .quickgrid[theme=corporate] .col-options-button:hover {
+            background-color: #6d6a6a;
         }
+
+        /* ::deep .quickgrid[theme=corporate] button.col-title:active, ::deep .quickgrid[theme=corporate] .col-options-button:active {
+            background-color: yellow;
+        } */
 
         .header {
             width: 100%;
@@ -27,7 +36,7 @@
             margin-bottom: 10px;
             border-bottom: 3px solid #323432;
         }
-        
+
         .header h1 {
             margin: 0;
             font-size: 100px;
@@ -58,9 +67,4 @@
 .grid {
     width: 100%;
     max-width: 1000px;
-}
-
-body {
-    font-family: 'SUSE', sans-serif;
-    background-color: #f4f4f4;
 }

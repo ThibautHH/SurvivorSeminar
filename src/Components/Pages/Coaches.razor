@@ -1,0 +1,125 @@
+@page "/coaches"
+
+<PageTitle>Coaches</PageTitle>
+
+<div class="header">
+    <h1>Coaches</h1>
+</div>
+
+<div class="coach-container">
+    <h1>Coaches</h1>
+
+    <table class="coach-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Birth Date</th>
+                <th>Customers</th>
+                <th>Last connection</th>
+            </tr>
+        </thead>
+        <tbody id="coach-table-body">
+
+        </tbody>
+    </table>
+</div>
+
+<script>
+    var coaches = [
+        {
+            id: 1,
+            name: "Jean Patrick",
+            birthDate: "09-01-1987",
+            lastConnection: "18-07-2024",
+            customers: [
+                { name: "Louis Bagneul", isSelected: false },
+                { name: "Véronique Tanson", isSelected: true },
+                { name: "Angele Labelge", isSelected: true },
+                { name: "Nicolas Tarabavich", isSelected: false }
+            ]
+        },
+        {
+            id: 2,
+            name: "Patrick Michel",
+            birthDate: "29-01-1943",
+            lastConnection: "12-07-2024",
+            customers: [
+                { name: "Louis Bagneul", isSelected: false },
+                { name: "Véronique Tanson", isSelected: true },
+                { name: "Angele Labelge", isSelected: true },
+                { name: "Nicolas Tarabavich", isSelected: false }
+            ]
+        },
+        {
+            id: 3,
+            name: "Michel Louis",
+            birthDate: "12-01-1921",
+            lastConnection: "15-07-2024",
+            customers: [
+                { name: "Louis Bagneul", isSelected: false },
+                { name: "Véronique Tanson", isSelected: true },
+                { name: "Angele Labelge", isSelected: true },
+                { name: "Nicolas Tarabavich", isSelected: false }
+            ]
+        },
+        {
+            id: 4,
+            name: "Louis Martin",
+            birthDate: "14-04-1999",
+            lastConnection: "12-07-2024",
+            customers: [
+                { name: "Louis Bagneul", isSelected: false },
+                { name: "Véronique Tanson", isSelected: true },
+                { name: "Angele Labelge", isSelected: true },
+                { name: "Nicolas Tarabavich", isSelected: false }
+            ]
+        }
+    ];
+
+    function generateCoachTable() {
+        var tbody = document.getElementById("coach-table-body");
+        tbody.innerHTML = "";
+
+        coaches.forEach(function(coach, index) {
+            var rowClass = (index % 2 === 0) ? "even" : "odd";
+
+            var coachRow = `
+                <tr class="${rowClass}">
+                    <td>${coach.id}</td>
+                    <td>${coach.name}</td>
+                    <td>${coach.birthDate}</td>
+                    <td><button onclick="toggleCustomerList(${coach.id})">Edit list ...</button></td>
+                    <td>${coach.lastConnection}</td>
+                </tr>
+            `;
+
+            var customerListRow = `
+                <tr id="customer-list-${coach.id}" class="customer-list" style="display: none;">
+                    <td colspan="5">
+                        <ul>
+                            ${coach.customers.map(customer => `
+                                <li>
+                                    <input type="checkbox" ${customer.isSelected ? "checked" : ""} /> ${customer.name}
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </td>
+                </tr>
+            `;
+
+            tbody.innerHTML += coachRow + customerListRow;
+        });
+    }
+
+    function toggleCustomerList(id) {
+        var customerList = document.getElementById('customer-list-' + id);
+        if (customerList.style.display === 'none') {
+            customerList.style.display = 'table-row';
+        } else {
+            customerList.style.display = 'none';
+        }
+    }
+
+    window.onload = generateCoachTable;
+</script>
