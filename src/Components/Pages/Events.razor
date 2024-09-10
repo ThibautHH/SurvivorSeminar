@@ -8,28 +8,28 @@
 
 <div class="events-container">
     <div id="map"></div>
-
-    <div class="events-list" id="eventsList">
-
+    <div class="events-list">
+        <ul id="eventsList"></ul>
     </div>
 </div>
 
 <template id="eventCardTemplate">
-    <div class="event-card">
+    <li class="event-card">
         <div>
             <strong class="event-title"></strong><br />
             <span class="event-location"></span><br />
             <span class="event-participants"></span>
         </div>
         <div class="event-date"></div>
-    </div>
+    </li>
 </template>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
 <script>
-    var events = [
+    document.addEventListener('DOMContentLoaded', function () {
+        var events = [
         {
             title: "Speed Dating",
             location: "Café Michel",
@@ -72,29 +72,47 @@
             date: "30/08/2024",
             coordinates: [48.8555, 2.3550]
         }
-    ];
+        ];
 
-    var map = L.map('map').setView([48.8566, 2.3522], 13);
+        var map = L.map('map').setView([48.8566, 2.3522], 13);
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19
-    }).addTo(map);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19
+        }).addTo(map);
 
-    var eventsList = document.getElementById('eventsList');
-    var template = document.getElementById('eventCardTemplate').content;
+        var eventsList = document.getElementById('eventsList');
+        var template = document.getElementById('eventCardTemplate').content;
 
-    events.forEach(function(event) {
-        L.marker(event.coordinates)
-            .addTo(map)
-            .bindPopup('<b>' + event.title + '</b><br>' + event.location);
+        events.forEach(function (event, index) {
+            L.marker(event.coordinates)
+                .addTo(map)
+                .bindPopup('<b>' + event.title + '</b><br>' + event.location);
 
-        var eventCard = document.importNode(template, true);
+            var eventCard = document.importNode(template, true);
 
-        eventCard.querySelector('.event-title').textContent = event.title;
-        eventCard.querySelector('.event-location').textContent = `📍 ${event.location}`;
-        eventCard.querySelector('.event-participants').textContent = `Max participants : ${event.maxParticipants}`;
-        eventCard.querySelector('.event-date').textContent = event.date;
+            eventCard.querySelector('.event-title').textContent = event.title;
+            eventCard.querySelector('.event-location').textContent = `📍 ${event.location}`;
+            eventCard.querySelector('.event-participants').textContent = `Max participants : ${event.maxParticipants}`;
+            eventCard.querySelector('.event-date').textContent = event.date;
+            eventCard.querySelector('li').dataset.index = index;
 
-        eventsList.appendChild(eventCard);
+            eventsList.appendChild(eventCard);
+        });
+
+        document.querySelectorAll('#eventsList li').forEach(function (li) {
+            li.addEventListener('click', function () {
+                var index = this.dataset.index;
+                var selectedEvent = events[index];
+
+                document.querySelectorAll('#eventsList li').forEach(function (card) {
+                    card.classList.remove('active');
+                });
+                this.classList.add('active');
+
+                map.setView(selectedEvent.coordinates, 18);
+
+                console.log('Selected Event:', selectedEvent);
+            });
+        });
     });
 </script>
