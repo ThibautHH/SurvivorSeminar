@@ -53,6 +53,14 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach (var payment in selectedCustomer.Payments)
+                        {
+                            <tr>
+                                <td>@payment.Date.ToString("yyyy-MM-dd")</td>
+                                <td>@payment.Amount</td>
+                                <td>@payment.Comment</td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </div>
@@ -68,6 +76,15 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach (var encounter in selectedCustomer.Encounters)
+                        {
+                            <tr>
+                                <td>@encounter.Date.ToString("yyyy-MM-dd")</td>
+                                <td>@encounter.Rating</td>
+                                <td>@encounter.Comment</td>
+                                <td>@encounter.Source</td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </div>
@@ -81,8 +98,10 @@
 
     protected override async Task OnInitializedAsync()
     {
-        // Fetch customers from the database, including payments
-        customers = await Context.Customers.Include(c => c.Payments).ToListAsync();
+        customers = await Context.Customers
+                                 .Include(c => c.Payments)
+                                 .Include(c => c.Encounters)
+                                 .ToListAsync();
     }
 
     private void OnCustomerChanged(int? value)
