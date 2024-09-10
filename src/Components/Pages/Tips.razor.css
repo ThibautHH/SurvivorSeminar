@@ -18,6 +18,17 @@ body {
     font-size: 60px;
 }
 
+
+/* h3 {
+    margin: 0;
+    font-size: 25px;
+    align-self: flex-start;
+}
+
+p {
+    align-self: flex-end;
+} */
+
 .container {
     max-width: 1500px;
     margin: 0 auto;
@@ -27,7 +38,7 @@ body {
     gap: 20px;
 }
 
-.chart-section {
+.row {
     display: flex;
     flex-direction: row;
     gap: 20px;
@@ -36,6 +47,20 @@ body {
 
 .tip-container {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Space out the title and content */
     padding: 20px;
     border: 3px solid #323432;
+}
+
+.tip-container h3 {
+    margin: 0;
+    font-size: 25px;
+    align-self: flex-start; /* Align h3 to the top */
+}
+
+.tip-container p {
+    align-self: flex-end; /* Align p to the bottom */
+    margin: 0; /* Ensure there's no extra margin */
 }
