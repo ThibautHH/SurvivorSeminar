@@ -4,8 +4,8 @@
 <PageTitle>Home</PageTitle>
 
 <div class="header">
-    <h1>SOUL CONNECTION</h1>
-    <h2>Dashboard</h2>
+    <h1>Dashboard</h1>
+    <h2>Welcome !</h2>
 </div>
 
 <div class="canvas-row">
@@ -85,26 +85,3 @@
     new Chart(ctx2, chartConfig);
     new Chart(ctx3, chartConfig);
 </script>
-
-<div class="grid">
-    <QuickGrid Items="@people" Theme="corporate">
-        <PropertyColumn Property="@(p => p.seq)" Sortable="true" />
-        <PropertyColumn Property="@(p => p.Product)" Sortable="true" />
-        <PropertyColumn Property="@(p => p.Category)" Sortable="true" />
-        <PropertyColumn Property="@(p => p.Period)" Sortable="true" />
-        <PropertyColumn Property="@(p => p.Sales)" Sortable="true" />
-    </QuickGrid>
-</div>
-
-@code {
-    record Person(int seq, string Product, string Category, string Period, string Sales);
-
-    IQueryable<Person> people = new[]
-    {
-        new Person(1, "Tea", "cat1", "Jan-11", "20K"),
-        new Person(2, "Coffee", "$23,234.56", "Jan-11", "15K"),
-        new Person(3, "Milk", "cat2", "Jan-11", "5K"),
-        new Person(4, "Cereal", "cat3", "Jan-11", "30K"),
-        new Person(5, "Chocolate", "cat4", "Jan-11", "25K"),
-    }.AsQueryable();
-}
