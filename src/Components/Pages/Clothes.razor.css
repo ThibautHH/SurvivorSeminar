@@ -1,6 +1,6 @@
 body {
-    font-family: 'SUSE', sans-serif;
-    background-color: #f4f4f4;
+    font-family: 'Nunito', system-ui;
+    background-color: #f5f6fa;
 }
 
 .container {
@@ -13,10 +13,11 @@ body {
     width: 100%;
     text-align: center;
     margin-bottom: 10px;
-    border-bottom: 3px solid #323432;
+    border-bottom: 3px solid #303c50;
 }
 
 .header h1 {
+    color: #303c50;
     margin: 0;
 }
 

@@ -1,18 +1,19 @@
 body {
-    font-family: 'SUSE', sans-serif;
-    background-color: #f4f4f4;
+    font-family: 'Nunito', system-ui;
+    background-color: #f5f6fa;
 }
 
 .header {
     width: 100%;
     text-align: left;
     margin-bottom: 10px;
-    border-bottom: 3px solid #323432;
+    border-bottom: 3px solid #303c50;
 }
 
 .header h1 {
     margin: 0;
     font-size: 60px;
+    color: #303c50;
 }
 
 .astro-container {

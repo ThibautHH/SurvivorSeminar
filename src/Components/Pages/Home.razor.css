@@ -1,11 +1,11 @@
 body {
-    font-family: 'SUSE', sans-serif;
-    background-color: #f4f4f4;
+    font-family: 'Nunito', system-ui;
+    background-color: #f5f6fa;
 }
 
 ::deep .quickgrid[theme=corporate] {
     font-family: 'Comic Sans MS', 'Times New Roman', serif;
-    color: #323432;
+    color: #303c50;
 }
 
     ::deep .quickgrid[theme=corporate] .col-title {
@@ -34,16 +34,18 @@ body {
             width: 100%;
             text-align: center;
             margin-bottom: 10px;
-            border-bottom: 3px solid #323432;
+            border-bottom: 3px solid #303c50;
         }
 
         .header h1 {
             margin: 0;
+            color: #303c50;
             font-size: 100px;
         }
 
         .header h2 {
             margin-top: -28px;
+            color: #303c50;
             font-size: 60px;
         }
 

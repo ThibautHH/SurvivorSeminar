@@ -2,7 +2,7 @@
     width: 100%;
     text-align: left;
     margin-bottom: 10px;
-    border-bottom: 3px solid #323432;
+    border-bottom: 3px solid #303c50;
 }
 
 .header h1 {
@@ -19,6 +19,7 @@
 
 h1 {
     font-size: 2em;
+    color: #303c50;
     margin-bottom: 20px;
 }
 
@@ -29,28 +30,28 @@ h1 {
 }
 
 .coach-table th, .coach-table td {
-    border: 3px solid #323432;
+    border: 3px solid #303c50;
     padding: 10px;
     text-align: left;
 }
 
 .coach-table th {
     background-color: #4682b4;
-    color: #f4f4f4;
+    color: #f5f6fa;
 }
 
 .coach-table .even {
-    background-color: #f4f4f4;
+    background-color: #f5f6fa;
 }
 
 .coach-table .odd {
-    background-color: #f4f4f4;
+    background-color: #f5f6fa;
 }
 
 .customer-list {
     padding: 10px;
-    background-color: #f4f4f4;
-    border-top: 1px solid #323432;
+    background-color: #f5f6fa;
+    border-top: 1px solid #303c50;
 }
 
 .customer-list ul {

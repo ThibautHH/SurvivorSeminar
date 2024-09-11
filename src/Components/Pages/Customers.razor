@@ -10,55 +10,58 @@
     <h1>Customers</h1>
 </div>
 
-<div class="customer-container">
-    <div class="customer-selection">
-        <label for="customerSelect">Customer:</label>
-        <select id="customerSelect" onchange="displayCustomerInfo()" class="customer-dropdown">
-            <option value="">-- Select a customer --</option>
-        </select>
-    </div>
-    <div id="customerInfo" class="customer-info">
-        <div class="customer-details">
-            <h2 id="name"></h2>
-            <div class="customer-birthdate">
-                <p id="birthDate"></p>
-                <p id="address"></p>
+<div class="main-container">
+    <!-- Customer Box Section -->
+    <div class="customer-box">
+        <div class="customer-selection">
+            <label for="customerSelect">Customer:</label>
+            <select id="customerSelect" onchange="displayCustomerInfo()" class="customer-dropdown">
+                <option value="">-- Select a customer --</option>
+            </select>
+        </div>
+        <div id="customerInfo" class="customer-info">
+            <div class="customer-photo">
+                <img id="photo" alt="Customer Photo" class="picture">
+            </div>
+            <div class="customer-details">
+                <h2 id="name"></h2>
+                <div class="customer-birthdate">
+                    <p id="birthDate"></p>
+                    <p id="address"></p>
+                </div>
             </div>
         </div>
-        <div class="customer-photo">
-            <img id="photo" alt="Customer Photo" class="picture">
+    </div>
+
+    <!-- Tables Section -->
+    <div class="tables-container">
+        <div class="table-section">
+            <h3>Meetings</h3>
+            <table id="meetingsTable" class="meetings-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Rating</th>
+                        <th>Report</th>
+                        <th>Source</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <h3>Payments</h3>
+            <table id="paymentsTable" class="payments-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Amount</th>
+                        <th>Comment</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
         </div>
-    </div>
-</div>
-<div class="container">
-    <div class="table-section">
-        <h3>Payments</h3>
-        <table id="paymentsTable">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Amount</th>
-                    <th>Comment</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-    </div>
-    <div class="table-section">
-        <h3>Meetings</h3>
-        <table id="meetingsTable">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Rating</th>
-                    <th>Report</th>
-                    <th>Source</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
     </div>
 </div>
 

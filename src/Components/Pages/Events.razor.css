@@ -1,8 +1,8 @@
 body {
-    font-family: 'SUSE', sans-serif;
+    font-family: 'Nunito', system-ui;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    background-color: #f5f6fa;
     color: #333;
 }
 
@@ -10,11 +10,12 @@ body {
     width: 100%;
     text-align: left;
     margin-bottom: 10px;
-    border-bottom: 3px solid #323432;
+    border-bottom: 3px solid #303c50;
 }
 
 .header h1 {
     margin: 0;
+    color: #303c50;
     font-size: 60px;
 }
 
@@ -40,7 +41,7 @@ body {
 
 .event-card {
     list-style: none;
-    border: 3px solid #323432;
+    border: 3px solid #303c50;
     padding: 10px;
     margin-bottom: 10px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
