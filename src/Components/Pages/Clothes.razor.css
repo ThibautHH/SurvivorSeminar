@@ -35,12 +35,13 @@
 .display-box {
     width: 150px;
     height: 150px;
-    border: 2px solid #ccc;
-    background-color: #ececec;
+    border: 2px solid #e7e9f1;
+    background-color: #ffffff;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    border-radius: 10px;
 }
 
 .display-box img {

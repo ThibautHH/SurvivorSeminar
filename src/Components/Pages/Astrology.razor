@@ -21,9 +21,9 @@
         <div class="astro-row">
             <CustomerSelector Label="Client A" @bind-Value="_model.CustomerA" Customers="_customers" OppositeCustomer="() => _model.CustomerB" />
             <MudDivider Vertical="true" FlexItem="true" />
+            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled">Calculate</MudButton>
             <CustomerSelector Label="Client B" @bind-Value="_model.CustomerB" Customers="_customers" OppositeCustomer="() => _model.CustomerA" />
         </div>
-        <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled">Calculate</MudButton>
     </EditForm>
 </div>
 
