@@ -33,6 +33,8 @@ public static class IServiceCollectionExtensions
 
         services.AddHostedService<SoulConnectionSynchronizationService>();
 
+        services.Configure<HostOptions>(static options => options.BackgroundServiceExceptionBehavior = BackgroundServiceExceptionBehavior.Ignore);
+
         return services;
     }
 }
