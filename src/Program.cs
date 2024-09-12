@@ -26,7 +26,7 @@ builder.Services.AddAuthentication(options =>
         options.DefaultScheme = IdentityConstants.ApplicationScheme;
         options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
     })
-    .AddCookie(SoulConnectionDefaults.AuthenticationScheme, "Soul Connection", SoulConnectionDefaults.Configure)
+    .AddCookie(SoulConnectionDefaults.AuthenticationScheme, SoulConnectionDefaults.DisplayName, SoulConnectionDefaults.Configure)
     .AddIdentityCookies();
 
 builder.Services.AddSoulConnection(builder.Configuration.GetRequiredSection(SoulConnectionDefaults.AuthenticationScheme));
