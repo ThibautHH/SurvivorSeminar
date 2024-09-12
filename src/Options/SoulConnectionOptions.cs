@@ -21,6 +21,8 @@ public class SoulConnectionOptions
     {
         public int Interval { get; set; } = 30;
 
+        public bool UpdateExisitingRecords { get; set; }
+
         public Uri Host { get; set; } = new(SoulConnectionDefaults.Authority);
 
         public CredentialsOptions Credentials { get; set; } = new();

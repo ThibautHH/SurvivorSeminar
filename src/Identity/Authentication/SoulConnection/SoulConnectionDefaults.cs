@@ -4,6 +4,8 @@ namespace SoulDashboard.Identity.Authentication.SoulConnection;
 
 public static class SoulConnectionDefaults
 {
+    public const string DisplayName = "Soul Connection";
+
     public const string AuthenticationScheme = "SoulConnection";
 
     public const string GroupTokenHeaderName = "X-Group-Authorization";
