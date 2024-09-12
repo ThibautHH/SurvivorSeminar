@@ -1,0 +1,67 @@
+.header {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 10px;
+    border-bottom: 3px solid #323432;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 60px;
+}
+
+.coach-container {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+.coach-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.coach-table th, .coach-table td {
+    border: 3px solid #323432;
+    padding: 10px;
+    text-align: left;
+}
+
+.coach-table th {
+    background-color: #4682b4;
+    color: #f4f4f4;
+}
+
+.coach-table .even {
+    background-color: #f4f4f4;
+}
+
+.coach-table .odd {
+    background-color: #f4f4f4;
+}
+
+.customer-list {
+    padding: 10px;
+    background-color: #f4f4f4;
+    border-top: 1px solid #323432;
+}
+
+.customer-list ul {
+    list-style: none;
+    padding-left: 20px;
+}
+
+.customer-list li {
+    margin: 5px 0;
+}
+
+input[type="checkbox"] {
+    margin-right: 10px;
+}

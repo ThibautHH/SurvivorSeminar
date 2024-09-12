@@ -1,0 +1,66 @@
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.header {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 10px;
+    border-bottom: 3px solid #323432;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 60px;
+}
+
+
+/* h3 {
+    margin: 0;
+    font-size: 25px;
+    align-self: flex-start;
+}
+
+p {
+    align-self: flex-end;
+} */
+
+.container {
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.tip-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Space out the title and content */
+    padding: 20px;
+    border: 3px solid #323432;
+}
+
+.tip-container h3 {
+    margin: 0;
+    font-size: 25px;
+    align-self: flex-start; /* Align h3 to the top */
+}
+
+.tip-container p {
+    align-self: flex-end; /* Align p to the bottom */
+    margin: 0; /* Ensure there's no extra margin */
+}

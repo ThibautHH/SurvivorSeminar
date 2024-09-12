@@ -1,0 +1,117 @@
+@page "/customer"
+
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.EntityFrameworkCore
+@using SoulDashboard.Data
+@using SoulDashboard.Database.Contexts
+
+@rendermode RenderMode.InteractiveServer
+
+@inject ApplicationDbContext Context
+
+<PageTitle>Customers</PageTitle>
+
+<div class="header">
+    <h1>Customers</h1>
+</div>
+
+<div class="customer-container">
+    <div class="customer-selection">
+        <label for="customerSelect">Customer:</label>
+        <select id="customerSelect" @bind="selectedCustomerId" class="customer-dropdown">
+            <option value="">-- Select a customer --</option>
+            @foreach (var customer in customers)
+            {
+                <option value="@customer.Id">@customer.Name</option>
+            }
+        </select>
+    </div>
+
+    @if (selectedCustomer != null)
+    {
+        <div id="customerInfo" class="customer-info">
+            <div class="customer-details">
+                <h2>@selectedCustomer.Name @selectedCustomer.Surname</h2>
+                <div class="customer-birthdate">
+                    <p>Birthdate: @selectedCustomer.BirthDate.ToString("yyyy-MM-dd")</p>
+                    <p>Address: @selectedCustomer.Address</p>
+                </div>
+            </div>
+            <div class="customer-photo">
+                <img src="data:image/jpeg;base64,@Convert.ToBase64String(selectedCustomer.Image)" alt="Customer Photo" class="picture">
+            </div>
+        </div>
+        <div class="container">
+            <div class="table-section">
+                <h3>Payments</h3>
+                <table id="paymentsTable">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Amount</th>
+                            <th>Comment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var payment in selectedCustomer.Payments)
+                        {
+                            <tr>
+                                <td>@payment.Date.ToString("yyyy-MM-dd")</td>
+                                <td>@payment.Amount</td>
+                                <td>@payment.Comment</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="table-section">
+                <h3>Meetings</h3>
+                <table id="meetingsTable">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Rating</th>
+                            <th>Report</th>
+                            <th>Source</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var encounter in selectedCustomer.Encounters)
+                        {
+                            <tr>
+                                <td>@encounter.Date.ToString("yyyy-MM-dd")</td>
+                                <td>@encounter.Rating</td>
+                                <td>@encounter.Comment</td>
+                                <td>@encounter.Source</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    private List<SoulDashboard.Data.Customer> customers = new();
+    private SoulDashboard.Data.Customer? selectedCustomer = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        customers = await Context.Customers
+                                 .Include(c => c.Payments)
+                                 .Include(c => c.Encounters)
+                                 .ToListAsync();
+    }
+
+    private void OnCustomerChanged(int? value)
+    {
+        selectedCustomer = customers.FirstOrDefault(c => c.Id == value);
+    }
+
+    private int? selectedCustomerId
+    {
+        get => selectedCustomer?.Id;
+        set => OnCustomerChanged(value);
+    }
+}

@@ -1,5 +1,6 @@
 html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: "SUSE", sans-serif;
+    src: url('Suse-font.ttf');
 }
 
 a, .btn-link {
