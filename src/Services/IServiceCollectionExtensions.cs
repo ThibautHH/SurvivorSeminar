@@ -12,14 +12,14 @@ public static class IServiceCollectionExtensions
         services.Configure<SoulConnectionOptions>(configuration)
             .AddSingleton<IConfigureOptions<CookieAuthenticationOptions>, SoulConnectionCookieConfigureOptions>();
 
-        services.AddHttpClient<ISoulConnectionService, DefaultSoulConnectionService>((services, client) =>
+        services.AddHttpClient<ISoulConnectionService, DefaultSoulConnectionService>(static (services, client) =>
         {
             var options = services.GetRequiredService<IOptionsMonitor<SoulConnectionOptions>>().CurrentValue;
             client.BaseAddress = options.Authentication.Authority;
             client.DefaultRequestHeaders.Add(SoulConnectionDefaults.GroupTokenHeaderName, options.GroupToken);
         });
 
-        services.AddHttpClient<SoulConnectionDataService>((services, client) =>
+        services.AddHttpClient<SoulConnectionDataService>(static (services, client) =>
         {
             var options = services.GetRequiredService<IOptionsMonitor<SoulConnectionOptions>>().CurrentValue;
             client.BaseAddress = options.Synchronization.Host;

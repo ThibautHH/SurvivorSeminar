@@ -18,6 +18,14 @@ public class SoulConnectionDataService(HttpClient backchannel,
 {
     private sealed record Entity(int Id);
 
+    private readonly static Func<ApplicationDbContext, DbSet<Employee>> Employees = static c => c.Employees;
+    private readonly static Func<ApplicationDbContext, DbSet<Tip>> Tips = static c => c.Tips;
+    private readonly static Func<ApplicationDbContext, DbSet<Customer>> Customers = static c => c.Customers;
+    private readonly static Func<ApplicationDbContext, DbSet<Encounter>> Encounters = static c => c.Encounters;
+    private readonly static Func<ApplicationDbContext, DbSet<Cloth>> Clothes = static c => c.Clothes;
+    private readonly static Func<ApplicationDbContext, DbSet<Payment>> Payments = static c => c.Payments;
+    private readonly static Func<ApplicationDbContext, DbSet<Event>> Events = static c => c.Events;
+
     private static readonly JsonSerializerOptions SerializerOptions = new()
     {
         PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower
@@ -28,59 +36,59 @@ public class SoulConnectionDataService(HttpClient backchannel,
         logger.LogDebug("Synchronizing SoulConnection data.");
 
         await context.Employees.LoadAsync(cancellationToken);
-        await foreach (var update in GetEntities(c => c.Employees, cancellationToken)
+        await foreach (var update in GetEntities(Employees, cancellationToken)
             .Select(e => AddOrUpdateUserAsync(e, cancellationToken)))
             await update;
         await context.SaveChangesAsync(cancellationToken);
 
         await context.Tips.LoadAsync(cancellationToken);
-        await foreach (var update in GetEntities(c => c.Tips, cancellationToken)
-            .Select(t => AddOrUpdateAsync(t, c => c.Tips, cancellationToken)))
+        await foreach (var update in GetEntities(Tips, cancellationToken)
+            .Select(t => AddOrUpdateAsync(t, Tips, cancellationToken)))
             await update;
         await context.SaveChangesAsync(cancellationToken);
 
         await context.Customers.LoadAsync(cancellationToken);
-        var customers = GetEntities(c => c.Customers, cancellationToken);
-        await foreach (var update in customers.Select(c => AddOrUpdateAsync(c, c => c.Customers, cancellationToken)))
+        var customers = GetEntities(Customers, cancellationToken);
+        await foreach (var update in customers.Select(c => AddOrUpdateAsync(c, Customers, cancellationToken)))
             await update;
         await context.SaveChangesAsync(cancellationToken);
 
         await context.Encounters.LoadAsync(cancellationToken);
-        await foreach (var update in GetEntities(c => c.Encounters, cancellationToken)
-            .Select(t => AddOrUpdateAsync(t, c => c.Encounters, cancellationToken)))
+        await foreach (var update in GetEntities(Encounters, cancellationToken)
+            .Select(t => AddOrUpdateAsync(t, Encounters, cancellationToken)))
             await update;
         await context.SaveChangesAsync(cancellationToken);
 
         await context.Clothes.LoadAsync(cancellationToken);
         await foreach (var update in customers
-            .SelectManyAwait(c => GetEntities(c, c => c.Clothes, cancellationToken))
-            .Select(c => AddOrUpdateAsync(c, c => c.Clothes, cancellationToken)))
+            .SelectManyAwait(c => GetEntities(c, Clothes, cancellationToken))
+            .Select(c => AddOrUpdateAsync(c, Clothes, cancellationToken)))
             await update;
         await context.SaveChangesAsync(cancellationToken);
 
         await context.Payments.LoadAsync(cancellationToken);
         await foreach (var update in customers
-            .SelectManyAwait(c => GetEntities(c, c => c.Payments, cancellationToken))
-            .Select(p => AddOrUpdateAsync(p, c => c.Payments, cancellationToken)))
+            .SelectManyAwait(c => GetEntities(c, Payments, cancellationToken))
+            .Select(p => AddOrUpdateAsync(p, Payments, cancellationToken)))
             await update;
         await context.SaveChangesAsync(cancellationToken);
 
         await context.Events.LoadAsync(cancellationToken);
-        await foreach (var update in GetEntities(c => c.Events, cancellationToken)
-            .Select(e => AddOrUpdateAsync(e, c => c.Events, cancellationToken)))
+        await foreach (var update in GetEntities(Events, cancellationToken)
+            .Select(e => AddOrUpdateAsync(e, Events, cancellationToken)))
             await update;
         await context.SaveChangesAsync(cancellationToken);
 
         foreach (var employee in context.Employees)
-            await LoadImageAsync(employee, c => c.Employees, cancellationToken);
+            await LoadImageAsync(employee, Employees, cancellationToken);
         await context.SaveChangesAsync(cancellationToken);
 
         foreach (var customer in context.Customers)
-            await LoadImageAsync(customer, c => c.Customers, cancellationToken);
+            await LoadImageAsync(customer, Customers, cancellationToken);
         await context.SaveChangesAsync(cancellationToken);
 
         foreach (var cloth in context.Clothes)
-            await LoadImageAsync(cloth, c => c.Clothes, cancellationToken);
+            await LoadImageAsync(cloth, Clothes, cancellationToken);
         await context.SaveChangesAsync(cancellationToken);
     }
 

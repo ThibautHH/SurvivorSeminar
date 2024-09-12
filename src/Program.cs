@@ -21,7 +21,7 @@ builder.Services.AddScoped<IdentityUserAccessor>();
 builder.Services.AddScoped<IdentityRedirectManager>();
 builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
 
-builder.Services.AddAuthentication(options =>
+builder.Services.AddAuthentication(static options =>
     {
         options.DefaultScheme = IdentityConstants.ApplicationScheme;
         options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
@@ -48,7 +48,7 @@ if (!EF.IsDesignTime)
 builder.Services.AddDatabaseDeveloperPageExceptionFilter()
     .AddDbContexts(connectionString);
 
-builder.Services.AddIdentityCore<Employee>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddIdentityCore<Employee>(static options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<IdentityDbContext>()
     .AddSignInManager()
     .AddDefaultTokenProviders();
