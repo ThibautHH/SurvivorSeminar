@@ -1,216 +1,71 @@
 @page "/coaches"
 
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.EntityFrameworkCore
+@using SoulDashboard.Components.Coaches
+@using SoulDashboard.Database.Contexts
+
+@rendermode RenderMode.InteractiveServer
+
+@inject ApplicationDbContext Context
+
+@* @attribute [Authorize(Roles = "Manager")] *@
+
+<PageTitle>Coaches</PageTitle>
+
 <h1 class="header">Coaches List</h1>
 
 <div class="coaches-list">
-    <button id="addCoachButton" class="add-button">+</button>
-    <p>You have total <span id="coachCount"></span> coaches.</p>
+    <p>You have total <span id="coachCount">@_coaches.Count</span> coaches.</p>
 
-    <div class="search-container">
-        <input type="text" id="searchInput" placeholder="Search coach by name">
-        <div class="search-suggestions hidden" id="searchSuggestions"></div>
-    </div>
-
-    <table>
-        <thead>
-            <tr>
-                <th><input type="checkbox" id="selectAll"></th>
-                <th>Coach</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Number of customers</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody id="coachesTable">
-
-        </tbody>
-    </table>
+    <MudDataGrid Items="_coaches" MultiSelection="true">
+        <Columns>
+            <TemplateColumn Title="Coach" Context="coach" HeaderClass="justify-center">
+                <CellTemplate>
+                    <MudStack Row AlignItems="AlignItems.Center">
+                        <MudAvatar>
+                            <MudImage Src="@($"data:image/png;base64,{Convert.ToBase64String(coach.Item.Image)}")" />
+                        </MudAvatar>
+                        <MudText>
+                            @coach.Item.Name @coach.Item.Surname
+                        </MudText>
+                    </MudStack>
+                </CellTemplate>
+            </TemplateColumn>
+            <PropertyColumn Property="c => c.Email" />
+            <PropertyColumn Property="c => c.Customers.Count" />
+            <TemplateColumn Context="coach">
+                <CellTemplate>
+                    <MudPopover Open="@(_selectedCoach == coach.Item)" >
+                        <CascadingValue Value="Context">
+                            <ClientList Customers="_customers" @bind-Coach="_selectedCoach" />
+                        </CascadingValue>
+                    </MudPopover>
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="() => _selectedCoach = coach.Item">
+                        Clients
+                    </MudButton>
+                </CellTemplate>
+            </TemplateColumn>
+        </Columns>
+    </MudDataGrid>
 </div>
 
-<div id="popupContainer" class="popup hidden">
-    <div class="popup-content">
-        <h3>Clients List</h3>
-        <ul id="clientsList"></ul>
-        <button id="deleteCoachButton" class="delete-button">Delete Coach</button>
-        <button id="closePopup">Close</button>
-    </div>
-</div>
+@code {
+    private IList<Employee> _coaches = default!;
 
-<div id="addCoachPopup" class="popup hidden">
-    <div class="popup-content">
-        <h3>Add a Coach</h3>
-        <form id="addCoachForm">
-            <label for="coachName">Name :</label>
-            <input type="text" id="coachName" required><br>
-            <label for="coachEmail">Email :</label>
-            <input type="email" id="coachEmail" required><br>
-            <label for="coachPhone">Phone :</label>
-            <input type="text" id="coachPhone" required><br>
-            <label for="coachPhoto">Photo URL :</label>
-            <input type="text" id="coachPhoto" required><br>
-            <label for="coachClients">Clients (comma-separated) :</label>
-            <input type="text" id="coachClients"><br>
-            <button type="submit">Add Coach</button>
-        </form>
-        <button id="closeAddCoachPopup">Close</button>
-    </div>
-</div>
+    private IEnumerable<Customer> _customers = default!;
 
-<script>
-    let selectedCoachIndex = null;
+    private Employee? _selectedCoach;
 
-    const coaches = [
-        { name: "Bobby Gilbert", email: "bobby@softnio.com", phone: "+342 675-6578", photo: "https://via.placeholder.com/40", clients: ["Client A", "Client B"], selectedClients: [] },
-        { name: "Olivia Poulsen", email: "olivia@apple.com", phone: "+782 332-8328", photo: "https://via.placeholder.com/40", clients: ["Client C", "Client D"], selectedClients: [] },
-        { name: "Heather Marshall", email: "marshall@reakitt.com", phone: "+342 545-5639", photo: "https://via.placeholder.com/40", clients: ["Client E", "Client F"], selectedClients: [] },
-        { name: "Benjamin Harris", email: "info@mediavest.com", phone: "+342 675-6578", photo: "https://via.placeholder.com/40", clients: ["Client G", "Client H"], selectedClients: [] },
-        { name: "Joshua Kennedy", email: "joshua@softnio.com", phone: "+323 345-8676", photo: "https://via.placeholder.com/40", clients: ["Client I", "Client J"], selectedClients: [] },
-    ];
+    protected override async Task OnInitializedAsync()
+    {
+        _coaches = await Context.Employees
+            .Include(e => e.Customers)
+            .Where(e => e.Work.Equals("Coach"))
+            .ToListAsync();
 
-    function calculateCustomerCount(coach) {
-        return coach.clients.length;
+        _customers = await Context.Customers.ToListAsync();
+
+        await  base.OnInitializedAsync();
     }
-
-    function populateCoachesTable() {
-        const tableBody = document.getElementById("coachesTable");
-        tableBody.innerHTML = '';
-        coaches.forEach((coach, index) => {
-            const customerCount = calculateCustomerCount(coach);
-            const row = document.createElement("tr");
-            row.innerHTML = `
-                <td><input type="checkbox" class="select-coach"></td>
-                <td>
-                    <div class="coach-info">
-                        <img src="${coach.photo}" alt="${coach.name}" class="avatar">
-                        <span>${coach.name}</span>
-                    </div>
-                </td>
-                <td>${coach.email}</td>
-                <td>${coach.phone}</td>
-                <td>${customerCount}</td>
-                <td><span class="action-icon" data-coach="${index}">...</span></td>
-            `;
-            tableBody.appendChild(row);
-        });
-
-        document.querySelectorAll('.action-icon').forEach(item => {
-            item.addEventListener('click', function() {
-                selectedCoachIndex = this.getAttribute('data-coach');
-                showPopup(selectedCoachIndex);
-            });
-        });
-    }
-
-    function updateCoachCount() {
-        const coachCount = document.getElementById("coachCount");
-        coachCount.textContent = coaches.length;
-    }
-
-    function showPopup(coachIndex) {
-        const popupContainer = document.getElementById('popupContainer');
-        const clientsList = document.getElementById('clientsList');
-        clientsList.innerHTML = '';
-
-        const coach = coaches[coachIndex];
-        coach.clients.forEach((client, index) => {
-            const isChecked = coach.selectedClients.includes(client) ? "checked" : "";
-            const listItem = document.createElement('li');
-            listItem.innerHTML = `<input type="checkbox" ${isChecked} data-client="${index}"> ${client}`;
-            clientsList.appendChild(listItem);
-        });
-
-        document.querySelectorAll('#clientsList input[type="checkbox"]').forEach(item => {
-            item.addEventListener('change', function() {
-                const clientName = coach.clients[this.getAttribute('data-client')];
-                if (this.checked) {
-                    coach.selectedClients.push(clientName);
-                } else {
-                    coach.selectedClients = coach.selectedClients.filter(client => client !== clientName);
-                }
-            });
-        });
-
-        popupContainer.classList.remove('hidden');
-    }
-
-    document.getElementById('closePopup').addEventListener('click', function() {
-        document.getElementById('popupContainer').classList.add('hidden');
-    });
-
-    document.getElementById("addCoachForm").addEventListener("submit", function(event) {
-        event.preventDefault();
-        const name = document.getElementById("coachName").value;
-        const email = document.getElementById("coachEmail").value;
-        const phone = document.getElementById("coachPhone").value;
-        const photo = document.getElementById("coachPhoto").value;
-        const clients = document.getElementById("coachClients").value.split(",").map(c => c.trim());
-        coaches.push({ name, email, phone, photo, clients, selectedClients: [] });
-        populateCoachesTable();
-        updateCoachCount();
-        document.getElementById('addCoachPopup').classList.add('hidden');
-    });
-
-    document.getElementById('addCoachButton').addEventListener('click', function() {
-        document.getElementById('addCoachPopup').classList.remove('hidden');
-    });
-
-    document.getElementById('closeAddCoachPopup').addEventListener('click', function() {
-        document.getElementById('addCoachPopup').classList.add('hidden');
-    });
-
-    document.getElementById('deleteCoachButton').addEventListener('click', function() {
-        if (selectedCoachIndex !== null) {
-            coaches.splice(selectedCoachIndex, 1);
-            populateCoachesTable();
-            updateCoachCount();
-            document.getElementById('popupContainer').classList.add('hidden');
-        }
-    });
-
-    document.getElementById('searchInput').addEventListener('input', function() {
-        const searchValue = this.value.toLowerCase();
-        const suggestions = document.getElementById('searchSuggestions');
-        suggestions.innerHTML = '';
-
-        if (searchValue.length > 0) {
-            const filteredCoaches = coaches.filter(coach => coach.name.toLowerCase().includes(searchValue));
-            filteredCoaches.forEach(coach => {
-                const suggestionItem = document.createElement('div');
-                suggestionItem.textContent = coach.name;
-                suggestionItem.addEventListener('click', () => {
-                    document.getElementById('searchInput').value = coach.name;
-                    suggestions.classList.add('hidden');
-                    highlightCoach(coach.name);
-                });
-                suggestions.appendChild(suggestionItem);
-            });
-            suggestions.classList.remove('hidden');
-        } else {
-            suggestions.classList.add('hidden');
-            document.querySelectorAll('#coachesTable tr').forEach(row => {
-                row.classList.remove('highlight');
-            });
-        }
-    });
-
-    function highlightCoach(coachName) {
-        document.querySelectorAll('#coachesTable tr').forEach(row => {
-            if (row.textContent.toLowerCase().includes(coachName.toLowerCase())) {
-                row.classList.add('highlight');
-            } else {
-                row.classList.remove('highlight');
-            }
-        });
-    }
-
-    document.getElementById('selectAll').addEventListener('change', function() {
-        const isChecked = this.checked;
-        document.querySelectorAll('.select-coach').forEach(checkbox => {
-            checkbox.checked = isChecked;
-        });
-    });
-
-    populateCoachesTable();
-    updateCoachCount();
-</script>
+}
