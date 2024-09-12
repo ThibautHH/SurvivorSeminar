@@ -1,56 +1,11 @@
-body {
-    font-family: 'SUSE', sans-serif;
-    background-color: #f4f4f4;
-}
-
-::deep .quickgrid[theme=corporate] {
-    font-family: 'Comic Sans MS', 'Times New Roman', serif;
-    color: #323432;
-}
-
-    ::deep .quickgrid[theme=corporate] .col-title {
-        gap: 0.8rem;
-        font-weight: bold;
-        text-transform: uppercase;
-    }
-
-    ::deep .quickgrid[theme=corporate] .sort-indicator {
-        color: blue;
-    }
-
-        ::deep .quickgrid[theme=corporate] button.col-title, ::deep .quickgrid[theme=corporate] .col-options-button {
-            background-color: #888484;
-        }
-
-        ::deep .quickgrid[theme=corporate] button.col-title:hover, ::deep .quickgrid[theme=corporate] .col-options-button:hover {
-            background-color: #6d6a6a;
-        }
-
-        /* ::deep .quickgrid[theme=corporate] button.col-title:active, ::deep .quickgrid[theme=corporate] .col-options-button:active {
-            background-color: yellow;
-        } */
-
-        .header {
-            width: 100%;
-            text-align: center;
-            margin-bottom: 10px;
-            border-bottom: 3px solid #323432;
-        }
-
-        .header h1 {
-            margin: 0;
-            font-size: 100px;
-        }
-
-        .header h2 {
-            margin-top: -28px;
-            font-size: 60px;
-        }
-
 .canvas-container {
     width: 100%;
-    max-width: 500px;
-    margin-top: 130px;
+    max-width: 510px;
+    background-color: #ffffff;
+    padding: 10px;
+    border-radius: 10px;
+    border: 2px solid #e7e9f1;
+    /* flex-shrink: 0; */
 }
 
 .canvas-row {

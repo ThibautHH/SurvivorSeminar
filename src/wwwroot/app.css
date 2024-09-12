@@ -1,10 +1,14 @@
 html, body {
-    font-family: "SUSE", sans-serif;
-    src: url('Suse-font.ttf');
+    font-family: "Nunito", system-ui;
+    src: url('Nunito-font.ttf');
 }
 
 a, .btn-link {
     color: #006bb7;
+}
+
+h1.header {
+    color: #303c50;
 }
 
 .btn-primary {

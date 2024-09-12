@@ -11,107 +11,142 @@
 
 <PageTitle>Customers</PageTitle>
 
-<div class="header">
-    <h1>Customers</h1>
-</div>
+<h1 class="header">Customers</h1>
 
-<div class="customer-container">
-    <div class="customer-selection">
-        <label for="customerSelect">Customer:</label>
-        <select id="customerSelect" @bind="selectedCustomerId" class="customer-dropdown">
-            <option value="">-- Select a customer --</option>
-            @foreach (var customer in customers)
-            {
-                <option value="@customer.Id">@customer.Name</option>
-            }
-        </select>
-    </div>
-
-    @if (selectedCustomer != null)
-    {
+<div class="main-container">
+    <!-- Customer Box Section -->
+    <div class="customer-box">
+        <div class="customer-selection">
+            <label for="customerSelect">Customer:</label>
+            <select id="customerSelect" onchange="displayCustomerInfo()" class="customer-dropdown">
+                <option value="">-- Select a customer --</option>
+            </select>
+        </div>
         <div id="customerInfo" class="customer-info">
+            <div class="customer-photo">
+                <img id="photo" alt="Customer Photo" class="picture">
+            </div>
             <div class="customer-details">
-                <h2>@selectedCustomer.Name @selectedCustomer.Surname</h2>
+                <h2 id="name"></h2>
                 <div class="customer-birthdate">
-                    <p>Birthdate: @selectedCustomer.BirthDate.ToString("yyyy-MM-dd")</p>
-                    <p>Address: @selectedCustomer.Address</p>
+                    Birthday:
+                    <p id="birthDate"></p>
+                    Adress:
+                    <p id="address"></p>
                 </div>
             </div>
-            <div class="customer-photo">
-                <img src="data:image/jpeg;base64,@Convert.ToBase64String(selectedCustomer.Image)" alt="Customer Photo" class="picture">
-            </div>
         </div>
-        <div class="container">
-            <div class="table-section">
-                <h3>Payments</h3>
-                <table id="paymentsTable">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Amount</th>
-                            <th>Comment</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var payment in selectedCustomer.Payments)
-                        {
-                            <tr>
-                                <td>@payment.Date.ToString("yyyy-MM-dd")</td>
-                                <td>@payment.Amount</td>
-                                <td>@payment.Comment</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-            <div class="table-section">
-                <h3>Meetings</h3>
-                <table id="meetingsTable">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Rating</th>
-                            <th>Report</th>
-                            <th>Source</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var encounter in selectedCustomer.Encounters)
-                        {
-                            <tr>
-                                <td>@encounter.Date.ToString("yyyy-MM-dd")</td>
-                                <td>@encounter.Rating</td>
-                                <td>@encounter.Comment</td>
-                                <td>@encounter.Source</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
+    </div>
+
+    <!-- Tables Section -->
+    <div class="tables-container">
+        <div class="table-section">
+            <h3>Meetings</h3>
+            <table id="meetingsTable" class="meetings-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Rating</th>
+                        <th>Report</th>
+                        <th>Source</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <h3>Payments</h3>
+            <table id="paymentsTable" class="payments-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Amount</th>
+                        <th>Comment</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
         </div>
-    }
+    </div>
 </div>
 
-@code {
-    private List<SoulDashboard.Data.Customer> customers = new();
-    private SoulDashboard.Data.Customer? selectedCustomer = null;
+<script>
+    const customersList = [
+        {
+            name: "Louis Delanata",
+            birthDate: "09/06/1996",
+            address: "3 Rue de la Tour 34000 Montpellier, France",
+            photoUrl: "https://via.placeholder.com/150/FFFF00",
+            payments: [
+                { date: "2023-12-01", amount: "200€", comment: "Subscription" },
+                { date: "2024-01-10", amount: "300€", comment: "Subscription" },
+                { date: "2024-02-20", amount: "200€", comment: "Subscription" }
+            ],
+            meetings: [
+                { date: "2024-02-14", rating: "3/5", report: "super moment", source: "Application" },
+                { date: "2024-03-12", rating: "4/5", report: "Direction les Bahamas", source: "La compagnie aérienne" },
+                { date: "2024-03-20", rating: "1/5", report: "Je me suis perdu", source: "Au bar" }
+            ]
+        },
+        {
+            name: "Jean Jack",
+            birthDate: "01/02/2002",
+            address: "14 rue des plages, France",
+            photoUrl: "https://via.placeholder.com/150/00FFFF",
+            payments: [
+                { date: "2003-01-02", amount: "600€", comment: "Subscription" },
+                { date: "2020-06-11", amount: "100€", comment: "Subscription" },
+                { date: "2024-09-30", amount: "150€", comment: "Subscription" }
+            ],
+            meetings: [
+                { date: "2024-01-20", rating: "1/5", report: "elle n'a pas voulu payer", source: "Meeting" },
+                { date: "2024-12-03", rating: "5/5", report: "j'ai pécho", source: "Club" },
+                { date: "2023-02-17", rating: "3/5", report: "truc de fou", source: "Carrefour" }
+            ]
+        }
+    ];
 
-    protected override async Task OnInitializedAsync()
-    {
-        customers = await Context.Customers
-                                 .Include(c => c.Payments)
-                                 .Include(c => c.Encounters)
-                                 .ToListAsync();
+    function populateDropdown() {
+        const select = document.getElementById('customerSelect');
+        customersList.forEach((customer, index) => {
+            const option = document.createElement('option');
+            option.value = index;
+            option.textContent = customer.name;
+            select.appendChild(option);
+        });
     }
 
-    private void OnCustomerChanged(int? value)
-    {
-        selectedCustomer = customers.FirstOrDefault(c => c.Id == value);
+    function displayCustomerInfo() {
+        const index = document.getElementById('customerSelect').value;
+        if (index === "") {
+            return;
+        }
+
+        const customer = customersList[index];
+        document.getElementById('name').textContent = customer.name;
+        document.getElementById('birthDate').textContent = `${customer.birthDate}`;
+        document.getElementById('address').textContent = `Address: ${customer.address}`;
+        document.getElementById('photo').src = customer.photoUrl;
+
+        const paymentsTableBody = document.getElementById('paymentsTable').getElementsByTagName('tbody')[0];
+        paymentsTableBody.innerHTML = "";
+        customer.payments.forEach(payment => {
+            const row = paymentsTableBody.insertRow();
+            row.insertCell(0).textContent = payment.date;
+            row.insertCell(1).textContent = payment.amount;
+            row.insertCell(2).textContent = payment.comment;
+        });
+
+        const meetingsTableBody = document.getElementById('meetingsTable').getElementsByTagName('tbody')[0];
+        meetingsTableBody.innerHTML = "";
+        customer.meetings.forEach(meeting => {
+            const row = meetingsTableBody.insertRow();
+            row.insertCell(0).textContent = meeting.date;
+            row.insertCell(1).textContent = meeting.rating;
+            row.insertCell(2).textContent = meeting.report;
+            row.insertCell(3).textContent = meeting.source;
+        });
     }
 
-    private int? selectedCustomerId
-    {
-        get => selectedCustomer?.Id;
-        set => OnCustomerChanged(value);
-    }
-}
+    populateDropdown();
+</script>

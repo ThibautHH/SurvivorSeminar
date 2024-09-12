@@ -3,10 +3,7 @@
 
 <PageTitle>Home</PageTitle>
 
-<div class="header">
-    <h1>SOUL CONNECTION</h1>
-    <h2>Dashboard</h2>
-</div>
+<h1 class="header">Dashboard</h1>
 
 <div class="canvas-row">
   <div class="canvas-container">
@@ -46,21 +43,21 @@
                 label: 'column 1',
                 data: [200, 400, 50, 300, 350, 10],
                 borderWidth: 2,
-                borderColor: '#323432',
+                borderColor: '#303c50',
                 backgroundColor: barColors[0]
             },
             {
                 label: 'column 2',
                 data: [50, 130, 80, 100, 150, 140],
                 borderWidth: 2,
-                borderColor: '#323432',
+                borderColor: '#303c50',
                 backgroundColor: barColors[1]
             },
             {
                 label: 'column 3',
                 data: [50, 130, 80, 100, 150, 140],
                 borderWidth: 2,
-                borderColor: '#323432',
+                borderColor: '#303c50',
                 backgroundColor: barColors[2]
             }]
         },
@@ -85,26 +82,3 @@
     new Chart(ctx2, chartConfig);
     new Chart(ctx3, chartConfig);
 </script>
-
-<div class="grid">
-    <QuickGrid Items="@people" Theme="corporate">
-        <Microsoft.AspNetCore.Components.QuickGrid.PropertyColumn Property="@(p => p.seq)" Sortable="true" />
-        <Microsoft.AspNetCore.Components.QuickGrid.PropertyColumn Property="@(p => p.Product)" Sortable="true" />
-        <Microsoft.AspNetCore.Components.QuickGrid.PropertyColumn Property="@(p => p.Category)" Sortable="true" />
-        <Microsoft.AspNetCore.Components.QuickGrid.PropertyColumn Property="@(p => p.Period)" Sortable="true" />
-        <Microsoft.AspNetCore.Components.QuickGrid.PropertyColumn Property="@(p => p.Sales)" Sortable="true" />
-    </QuickGrid>
-</div>
-
-@code {
-    record Person(int seq, string Product, string Category, string Period, string Sales);
-
-    IQueryable<Person> people = new[]
-    {
-        new Person(1, "Tea", "cat1", "Jan-11", "20K"),
-        new Person(2, "Coffee", "$23,234.56", "Jan-11", "15K"),
-        new Person(3, "Milk", "cat2", "Jan-11", "5K"),
-        new Person(4, "Cereal", "cat3", "Jan-11", "30K"),
-        new Person(5, "Chocolate", "cat4", "Jan-11", "25K"),
-    }.AsQueryable();
-}

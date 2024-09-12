@@ -9,18 +9,18 @@
 
 <PageTitle>Tips</PageTitle>
 
-<div class="header">
-    <h1>Tips</h1>
-</div>
+<div class="container mt-5">
+    <h1 class="header">Tips for Coaches</h1>
 
-<MudExpansionPanels Class="my-10">
-    @foreach (var tip in _tips)
-    {
-        <MudExpansionPanel Text="@tip.Title">
-            @tip.Content
-        </MudExpansionPanel>
-    }
-</MudExpansionPanels>
+    <MudExpansionPanels Class="my-10">
+        @foreach (var tip in _tips)
+        {
+            <MudExpansionPanel Text="@tip.Title">
+                @tip.Content
+            </MudExpansionPanel>
+        }
+    </MudExpansionPanels>
+</div>
 
 @code {
     private List<Tip> _tips = default!;
