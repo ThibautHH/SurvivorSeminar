@@ -1,5 +1,11 @@
 ﻿@page "/"
-@using Microsoft.AspNetCore.Components.QuickGrid
+
+@using Microsoft.EntityFrameworkCore
+@using SoulDashboard.Database.Contexts
+
+@rendermode RenderMode.InteractiveServer
+
+@inject ApplicationDbContext Context
 
 <PageTitle>Home</PageTitle>
 
@@ -24,7 +30,7 @@
         </div>
         <div class="donut-container">
             <h4>Meetings top sources</h4>
-            <canvas id="meetingSourcesChart"></canvas>
+            <MudChart ChartType="ChartType.Pie" InputData="@_encounterSources.Values.ToArray()" @bind-SelectedIndex="Index" InputLabels="@_encounterSources.Keys.ToArray()" Width="300px" Height="300px" />
         </div>
     </div>
 </div>
@@ -77,30 +83,6 @@
         }
     });
 
-    const meetingSourcesCtx = document.getElementById('meetingSourcesChart').getContext('2d');
-    const meetingSourcesChart = new Chart(meetingSourcesCtx, {
-        type: 'doughnut',
-        data: {
-            labels: ['Dating App', 'Social Media', 'Friends', 'Other'],
-            datasets: [{
-                data: [205, 182, 150, 70],
-                backgroundColor: [
-                    '#798BFF',
-                    '#B8ACFF',
-                    '#FFA9CE',
-                    '#F9DB7B'
-                ],
-                borderColor: [
-                    '#FFFFFF'
-                ],
-                borderWidth: 3
-            }]
-        },
-        options: {
-            responsive: true
-        }
-    });
-
     const worldMapCtx = document.getElementById('worldMapChart').getContext('2d');
     fetch('https://unpkg.com/world-atlas/countries-50m.json')
         .then(response => response.json())
@@ -135,3 +117,17 @@
             });
         });
 </script>
+
+@code {
+    private IDictionary<string, double> _encounterSources = default!;
+
+    private int Index { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        _encounterSources = await Context.Encounters.GroupBy(e => e.Source)
+            .ToDictionaryAsync(g => g.Key, g => (double)g.Count());
+
+        await base.OnInitializedAsync();
+    }
+}
