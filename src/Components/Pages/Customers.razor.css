@@ -1,38 +1,35 @@
-/* Container principal : occuper toute la largeur de l'écran */
 .main-container {
     display: flex;
-    gap: 40px; /* Espace entre la colonne de gauche et la partie droite */
+    gap: 40px;
     justify-content: space-between;
-    width: 100vw; /* Prend toute la largeur de l'écran */
-    max-width: 100%; /* Supprimer la limite pour prendre toute la largeur */
+    width: 100vw;
+    max-width: 100%;
     padding: 40px;
     background-color: #f5f6fa;
-    box-sizing: border-box; /* Assurer que les bordures sont incluses dans la taille */
-    height: 100vh; /* Occupe toute la hauteur de l'écran */
+    box-sizing: border-box;
+    height: 100vh;
 }
 
-/* Customer profile box : ajuster la largeur à un pourcentage pour occuper toute la partie gauche */
 .customer-box {
     background-color: #ffffff;
-    padding: 30px; /* Ajouter un padding pour le contenu */
+    padding: 30px;
     border: 1px solid #e5e7eb;
-    border-radius: 15px; /* Arrondir les coins */
+    border-radius: 15px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    width: 25%; /* Utilisation de 25% de la largeur de l'écran pour la colonne de gauche */
+    width: 25%;
     box-sizing: border-box;
-    height: auto; /* Adapter la hauteur au contenu */
+    height: auto;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centrer le contenu horizontalement */
+    align-items: center;
 }
 
-/* Photo du client et informations */
 .customer-info {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    margin-bottom: 50px; /* Ajouter un plus grand espace après la section de photo */
+    margin-bottom: 50px;
 }
 
 .customer-photo img {
@@ -40,15 +37,14 @@
     height: 120px;
     border-radius: 50%;
     object-fit: cover;
-    margin-bottom: 20px; /* Ajouter un espacement sous la photo */
+    margin-bottom: 20px;
     border: 4px solid #e5e7eb;
 }
 
-/* Texte des détails du client */
 .customer-details h2 {
     font-size: 1.6em;
     color: #333333;
-    margin: 10px 0 30px 0; /* Ajuster pour un espacement plus large en bas */
+    margin: 10px 0 30px 0;
     font-weight: bold;
 }
 
@@ -56,27 +52,26 @@
     font-size: 1.2em;
     font-weight: normal;
     color: #888888;
-    margin-bottom: 50px; /* Espacement après le sous-titre */
+    margin-bottom: 50px;
 }
 
-/* Statistiques */
 .stats {
     display: flex;
-    justify-content: space-between; /* Distribution égale des statistiques */
+    justify-content: space-between;
     width: 100%;
-    margin: 50px 0; /* Ajouter un bon espace avant et après */
-    padding-top: 20px; /* Espacement au-dessus des statistiques */
-    border-top: 1px solid #e5e7eb; /* Ligne séparatrice */
-    background-color: #ffffff; /* Fond blanc pour la section des statistiques */
-    border-radius: 15px; /* Arrondir les coins de la section */
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Ombre pour la section */
-    padding: 20px; /* Ajouter un padding pour l'espace interne */
+    margin: 50px 0;
+    padding-top: 20px;
+    border-top: 1px solid #e5e7eb;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
 }
 
 .stat {
     text-align: center;
-    flex: 1; /* Assure que chaque élément prend une part égale de l'espace */
-    margin: 0 20px; /* Espacement horizontal entre les éléments */
+    flex: 1;
+    margin: 0 20px;
 }
 
 .stat p {
@@ -91,17 +86,16 @@
     color: #70757a;
 }
 
-/* Détails supplémentaires avec espacement entre les sections */
 .short-details {
     text-align: left;
     width: 100%;
     margin-top: 50px;
-    font-size: 1.1em; /* Taille légèrement plus grande pour lisibilité */
+    font-size: 1.1em;
     color: #333333;
 }
 
 .detail-item {
-    margin-bottom: 20px; /* Espacement entre les éléments de détail */
+    margin-bottom: 20px;
 }
 
 .detail-item p {
@@ -116,18 +110,16 @@
     color: #555555;
 }
 
-/* Partie droite : Tables container */
 .tables-container {
-    flex: 1; /* S'adapte à l'espace restant après la section gauche */
+    flex: 1;
     padding-left: 20px;
-    width: 70%; /* Utilisation de 70% de l'écran pour la partie droite */
+    width: 70%;
 }
 
-/* Couleurs et ajustement de style pour la partie droite */
 h3 {
     font-size: 1.3em;
-    margin-bottom: 20px; /* Espacement plus grand sous les titres */
-    color: #1a73e8; /* Couleur bleu vif pour correspondre à la maquette */
+    margin-bottom: 20px;
+    color: #1a73e8;
 }
 
 .meetings-table, .payments-table {
@@ -145,31 +137,28 @@ h3 {
 }
 
 .meetings-table td, .payments-table td {
-    padding: 15px; /* Augmenter le padding pour un meilleur espacement */
+    padding: 15px;
     border-bottom: 1px solid #e5e7eb;
     color: #555555;
 }
 
-/* Dates dans les paiements en bleu */
 .payments-table td.date {
-    color: #1a73e8; /* Couleur bleue */
+    color: #1a73e8;
 }
 
-/* Montants en gras */
 .payments-table td.amount {
     font-weight: bold;
 }
 
 .meetings-table tr:hover, .payments-table tr:hover {
-    background-color: #f1f3f4; /* Couleur de surbrillance gris clair */
+    background-color: #f1f3f4;
 }
 
-/* Grille pour aligner les éléments */
 .grid {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Deux colonnes égales */
-    gap: 30px; /* Augmenter l'espacement entre les colonnes */
-    width: 100%; /* Pour que la grille prenne toute la largeur */
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    width: 100%;
     margin-top: 30px;
 }
 

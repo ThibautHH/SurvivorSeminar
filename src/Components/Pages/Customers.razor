@@ -14,7 +14,6 @@
 <h1 class="header">Customers</h1>
 
 <div class="main-container">
-    <!-- Customer Profile Section -->
     <div class="customer-box">
         <div class="customer-info">
             <div class="customer-photo">
@@ -62,9 +61,7 @@
         </div>
     </div>
 
-    <!-- Meetings and Payment Section -->
     <div class="tables-container">
-        <!-- Meetings Section -->
         <div class="table-section">
             <h3>Recent Meetings</h3>
             <table id="meetingsTable" class="meetings-table">
@@ -99,7 +96,6 @@
             </table>
         </div>
 
-        <!-- Payment History Section -->
         <div class="table-section">
             <h3>Payments History</h3>
             <table id="paymentsTable" class="payments-table">
@@ -198,8 +194,8 @@
             row.insertCell(1).textContent = payment.method;
             row.insertCell(2).textContent = payment.amount;
             row.insertCell(3).textContent = payment.comment;
-            row.cells[0].classList.add('date'); // Ajout de la classe 'date' aux dates
-            row.cells[2].classList.add('amount'); // Ajout de la classe 'amount' aux montants
+            row.cells[0].classList.add('date');
+            row.cells[2].classList.add('amount');
         });
 
         const meetingsTableBody = document.getElementById('meetingsTable').getElementsByTagName('tbody')[0];
