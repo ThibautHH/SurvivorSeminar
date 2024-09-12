@@ -1,68 +1,188 @@
-.header {
-    width: 100%;
-    text-align: left;
-    margin-bottom: 10px;
-    border-bottom: 3px solid #303c50;
-}
-
-.header h1 {
-    margin: 0;
-    font-size: 60px;
-}
-
-.coach-container {
-    font-family: Arial, sans-serif;
+.coaches-list {
     padding: 20px;
-    max-width: 800px;
-    margin: 0 auto;
+    background-color: #f7f7f7;
+    border-radius: 10px;
 }
 
 h1 {
-    font-size: 2em;
-    color: #303c50;
-    margin-bottom: 20px;
+    font-size: 24px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.coach-table {
+.add-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.search-container {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.search-container input {
+    padding: 10px;
+    width: 300px;
+    font-size: 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+}
+
+.search-suggestions {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    max-height: 200px;
+    overflow-y: auto;
+    width: 300px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.search-suggestions div {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.search-suggestions div:hover {
+    background-color: #f0f0f0;
+}
+
+table {
     width: 100%;
     border-collapse: collapse;
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+thead th {
+    background-color: #f2f2f2;
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+tbody td {
+    padding: 15px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.coach-info {
+    display: flex;
+    align-items: center;
+}
+
+.coach-info img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.action-icon {
+    cursor: pointer;
+}
+
+.action-icon:hover {
+    color: #007bff;
+    cursor: pointer;
+}
+
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 400px;
+    max-width: 90%;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.hidden {
+    display: none;
+}
+
+.highlight {
+    background-color: #696969;
+}
+
+.delete-button {
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
     margin-top: 10px;
 }
 
-.coach-table th, .coach-table td {
-    border: 3px solid #303c50;
+
+.popup h3 {
+    margin-bottom: 15px;
+}
+
+.popup-content form {
+    display: flex;
+    flex-direction: column;
+}
+
+.popup-content form label {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.popup-content form input {
     padding: 10px;
-    text-align: left;
+    margin-top: 5px;
+    font-size: 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
 }
 
-.coach-table th {
-    background-color: #4682b4;
-    color: #f5f6fa;
-}
-
-.coach-table .even {
-    background-color: #f5f6fa;
-}
-
-.coach-table .odd {
-    background-color: #f5f6fa;
-}
-
-.customer-list {
+.popup-content button {
+    margin-top: 15px;
     padding: 10px;
-    background-color: #f5f6fa;
-    border-top: 1px solid #303c50;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
-.customer-list ul {
+.popup-content button:hover {
+    background-color: #0056b3;
+}
+
+.popup ul {
     list-style: none;
-    padding-left: 20px;
+    padding: 0;
 }
 
-.customer-list li {
-    margin: 5px 0;
+.popup ul li {
+    margin-bottom: 10px;
 }
 
-input[type="checkbox"] {
+.popup ul li input {
     margin-right: 10px;
 }
