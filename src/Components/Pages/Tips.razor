@@ -1,59 +1,148 @@
 @page "/tips"
 @using Microsoft.AspNetCore.Components.Web
+@inject IJSRuntime JSRuntime
 
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 
-<PageTitle>Tips</PageTitle>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tips</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
 
-<div class="header">
-    <h1>Tips for Coaches</h1>
-</div>
+<body>
+    <div class="container mt-5">
+        <h1>Tips for Coaches</h1>
 
-<div class="container">
-    <div class="chart-section">
-        <div class="tip-container">
-            <h3>How to Handle Different Dating Paces</h3> @* title *@
-            Communicate your dating pace and be respectful of your partner’s pace. Find a compromise that works for both of you. @* tip *@
+        <div class="accordion" id="tipsAccordion">
+            <!-- Tip 1 -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading1">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
+                        Handling Different Dating Paces
+                    </button>
+                </h2>
+                <div id="collapse1" class="accordion-collapse collapse" aria-labelledby="heading1" data-bs-parent="#tipsAccordion">
+                    <div class="accordion-body">
+                        Be upfront about your dating pace and be receptive to your partner's. It's important to respect each other's comfort levels and find a balance.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tip 2 -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
+                        Dealing with a Bad Date
+                    </button>
+                </h2>
+                <div id="collapse2" class="accordion-collapse collapse" aria-labelledby="heading2" data-bs-parent="#tipsAccordion">
+                    <div class="accordion-body">
+                        Remain courteous and composed if things aren't going well. Every date can be a learning experience, and it's okay to move on without negativity.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tip 3 -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
+                        Setting Boundaries in Relationships
+                    </button>
+                </h2>
+                <div id="collapse3" class="accordion-collapse collapse" aria-labelledby="heading3" data-bs-parent="#tipsAccordion">
+                    <div class="accordion-body">
+                        Be clear about your boundaries early on and respect those of your partner. Mutual respect is the key to a healthy relationship.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tip 4 -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading4">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
+                        First Date Conversation Starters
+                    </button>
+                </h2>
+                <div id="collapse4" class="accordion-collapse collapse" aria-labelledby="heading4" data-bs-parent="#tipsAccordion">
+                    <div class="accordion-body">
+                        Break the ice with light and engaging topics—travel, hobbies, or personal favorite books or films. Avoid controversial subjects early on.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tip 5 -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading5">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
+                        Crafting an Appealing Dating Profile
+                    </button>
+                </h2>
+                <div id="collapse5" class="accordion-collapse collapse" aria-labelledby="heading5" data-bs-parent="#tipsAccordion">
+                    <div class="accordion-body">
+                        Be authentic in your profile. Showcase your genuine interests, values, and what you're seeking in a partner to attract like-minded matches.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tip 6 -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading6">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse6" aria-expanded="false" aria-controls="collapse6">
+                        Navigating Cultural Differences
+                    </button>
+                </h2>
+                <div id="collapse6" class="accordion-collapse collapse" aria-labelledby="heading6" data-bs-parent="#tipsAccordion">
+                    <div class="accordion-body">
+                        Embrace and celebrate your partner's culture with curiosity and respect. Use it as a way to bond and expand your understanding of each other.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tip 7 -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading7">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse7" aria-expanded="false" aria-controls="collapse7">
+                        Expressing Gratitude and Appreciation
+                    </button>
+                </h2>
+                <div id="collapse7" class="accordion-collapse collapse" aria-labelledby="heading7" data-bs-parent="#tipsAccordion">
+                    <div class="accordion-body">
+                        Regularly express gratitude for the little things. Acknowledge your partner’s efforts—it fosters appreciation and deepens the connection.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tip 8 -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading8">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse8" aria-expanded="false" aria-controls="collapse8">
+                        Keeping the Spark Alive
+                    </button>
+                </h2>
+                <div id="collapse8" class="accordion-collapse collapse" aria-labelledby="heading8" data-bs-parent="#tipsAccordion">
+                    <div class="accordion-body">
+                        Keep things exciting by planning date nights, trying new experiences, and regularly surprising each other with thoughtful gestures.
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="tip-container">
-            <h3>How to Handle a Bad Date</h3>
-            Stay polite and respectful, even if the date is not going well. Use it as a learning experience and move on gracefully.
-        </div>
-        <div class="tip-container">
-            <h3>Setting Boundaries in Dating</h3>
-            Clearly communicate your boundaries early on and respect the boundaries of others to build a foundation of mutual respect.
-        </div>
+
     </div>
 
-    <div class="chart-section">
-        <div class="tip-container">
-            <h3>Conversation Starters for a First Date</h3>
-            Prepare a few interesting topics to discuss, such as travel experiences, hobbies, or favorite books and movies.
-        </div>
-        <div class="tip-container">
-            <h3>Creating an Attractive Dating Profile</h3>
-            Highlight your interests and values in your profile, and be honest about what you are looking for in a partner.
-        </div>
-        <div class="tip-container">
-            <h3>Navigating Cultural Differences in Dating</h3>
-            Be open-minded and respectful of your date’s cultural background. Learn from each other and embrace the differences.
-        </div>
-    </div>
+    <!-- Bootstrap JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 
-    <div class="chart-section">
-        <div class="tip-container">
-            <h3>How to Handle a Bad Date</h3>
-            Stay polite and respectful, even if the date is not going well. Use it as a learning experience and move on gracefully.
-        </div>
-        <div class="tip-container">
-            <h3>Showing Gratitude and Appreciation</h3>
-            Express thanks for small gestures and efforts. Regularly show appreciation to strengthen the bond.
-        </div>
-        <div class="tip-container">
-            <h3>How to Keep the Spark Alive</h3>
-            Plan regular date nights, try new activities together, and continue to surprise each other with thoughtful gestures.
-        </div>
-    </div>
-</div>
 </html>
+
+@code {
+    // You don't need to call JavaScript manually anymore, so we can remove the JS interop code.
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        // No need to manually initialize the accordion
+    }
+}
