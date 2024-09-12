@@ -1,0 +1,120 @@
+@page "/events"
+
+<PageTitle>Events</PageTitle>
+
+<h1 class="header">Events</h1>
+
+<div class="events-container">
+    <div id="calendar"></div>
+
+    <div id="map"></div>
+</div>
+
+<template id="eventCardTemplate">
+    <li class="event-card">
+        <div>
+            <strong class="event-title"></strong><br />
+            <span class="event-location"></span><br />
+            <span class="event-participants"></span>
+        </div>
+        <div class="event-date"></div>
+    </li>
+</template>
+
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var events = [
+            {
+                title: "Speed Dating",
+                location: "Café Michel",
+                maxParticipants: 20,
+                date: "2024-04-22",
+                coordinates: [48.8566, 2.3522]
+            },
+            {
+                title: "Coaching Meeting",
+                location: "Salle Pleyel",
+                maxParticipants: 1000,
+                date: "2024-05-15",
+                coordinates: [48.8576, 2.3450]
+            },
+            {
+                title: "Dating Activity",
+                location: "Musée d'Orsay",
+                maxParticipants: 200,
+                date: "2024-06-10",
+                coordinates: [48.8530, 2.3499]
+            },
+            {
+                title: "How to Love for Dummies",
+                location: "Parking Carfour",
+                maxParticipants: 50,
+                date: "2024-07-05",
+                coordinates: [48.8550, 2.3500]
+            },
+            {
+                title: "Karaoké",
+                location: "O'ptit Bar",
+                maxParticipants: 100,
+                date: "2024-07-20",
+                coordinates: [48.8600, 2.3400]
+            },
+            {
+                title: "Compatibility Test Meeting",
+                location: "Je sais pas trop où",
+                maxParticipants: 500,
+                date: "2024-08-30",
+                coordinates: [48.8555, 2.3550]
+            }
+        ];
+
+        var map = L.map('map').setView([48.8566, 2.3522], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19
+        }).addTo(map);
+
+        var markers = {};
+
+        events.forEach(function(event) {
+            var marker = L.marker(event.coordinates)
+                .addTo(map)
+                .bindPopup('<b>' + event.title + '</b><br>' + event.location);
+
+            markers[event.title] = marker;
+        });
+
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            events: events.map(function(event) {
+                return {
+                    title: event.title,
+                    start: event.date,
+                    extendedProps: {
+                        location: event.location,
+                        maxParticipants: event.maxParticipants,
+                        coordinates: event.coordinates
+                    }
+                };
+            }),
+            eventClick: function(info) {
+                var event = info.event.extendedProps;
+                var marker = markers[info.event.title];
+
+                if (marker) {
+                    map.setView(marker.getLatLng(), 18);
+                    marker.openPopup();
+                }
+
+                alert('Event: ' + info.event.title + '\nLocation: ' + event.location + '\nMax Participants: ' + event.maxParticipants);
+            }
+        });
+        calendar.render();
+    });
+</script>

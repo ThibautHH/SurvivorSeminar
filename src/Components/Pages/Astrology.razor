@@ -1,0 +1,113 @@
+@page "/astrology"
+
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.EntityFrameworkCore
+@using SoulDashboard.Components.Astrology
+@using SoulDashboard.Database.Contexts
+@using System.Diagnostics.CodeAnalysis
+
+@rendermode RenderMode.InteractiveServer
+
+@inject ApplicationDbContext Context
+@inject TimeProvider TimeProvider
+
+<PageTitle>Astrology</PageTitle>
+
+<h1 class="header">Astrology</h1>
+
+<div class="astro-input">
+    <EditForm Model="_model" OnValidSubmit="OnValidSubmit" FormName="astrologyForm">
+        <DataAnnotationsValidator />
+        <div class="astro-row">
+            <CustomerSelector Label="Client A" @bind-Value="_model.CustomerA" Customers="_customers" OppositeCustomer="() => _model.CustomerB" />
+            <MudDivider Vertical="true" FlexItem="true" />
+            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled">Calculate</MudButton>
+            <CustomerSelector Label="Client B" @bind-Value="_model.CustomerB" Customers="_customers" OppositeCustomer="() => _model.CustomerA" />
+        </div>
+    </EditForm>
+</div>
+
+@if (compatibilityScore.HasValue)
+{
+    <div class="compatibility-result">
+        <h2>Compatibility: @compatibilityScore.Value%</h2>
+        <div class="heart-container">
+            <svg viewBox="0 0 32 29.6" class="heart">
+                <defs>
+                    <linearGradient id="fillColor" x1="0%" y1="100%" x2="0%" y2="0%">
+                        <stop offset="@compatibilityScore.Value%" stop-color="pink" />
+                        <stop offset="@compatibilityScore.Value%" stop-color="white" />
+                    </linearGradient>
+                </defs>
+                <path fill="url(#fillColor)" stroke="black" stroke-width="2"
+                      d="M23.6,0c-2.7,0-5.2,1.3-6.8,3.3C15.7,1.3,13.3,0,10.6,0C5.5,0,1.5,4,1.5,9.1
+                      c0,6.7,10.3,14.8,14.7,17.5c4.4-2.7,14.7-10.8,14.7-17.5C30.8,4,26.8,0,23.6,0z"/>
+            </svg>
+        </div>
+    </div>
+}
+
+@code {
+    private InputModel _model = new();
+
+    private Random _random = default!;
+
+    private List<Customer> _customers = default!;
+
+    private byte? compatibilityScore;
+
+    private Dictionary<InputModel, byte> _compatibilityScores = new(CustomerPairEqualityComparer.Instance);
+
+    private void OnValidSubmit(EditContext context)
+    {
+        _compatibilityScores[_model.Clone()] =
+            _compatibilityScores.GetValueOrDefault(_model,
+                (byte)(_model.CustomerA!.AstrologicalSign.Equals(_model.CustomerB!.AstrologicalSign, StringComparison.OrdinalIgnoreCase)
+                    ? _random.Next(40, 101) : _random.Next(0, 61)));
+
+        compatibilityScore = _compatibilityScores[_model];
+
+        StateHasChanged();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        _customers = await Context.Customers.ToListAsync();
+
+        _random = new Random((int)TimeProvider.GetUtcNow().Ticks);
+
+        await base.OnInitializedAsync();
+    }
+
+    private sealed class InputModel
+    {
+        [Required]
+        [Display(Name = "Client A")]
+        public Customer? CustomerA { get; set; }
+
+        [Required]
+        [Display(Name = "Client B")]
+        public Customer? CustomerB { get; set; }
+
+        public InputModel Clone() => new InputModel
+            {
+                CustomerA = CustomerA,
+                CustomerB = CustomerB
+            };
+    }
+
+    private sealed class CustomerPairEqualityComparer : EqualityComparer<InputModel>
+    {
+        private CustomerPairEqualityComparer() { }
+
+        public static CustomerPairEqualityComparer Instance { get; } = new();
+
+        public override bool Equals(InputModel? x, InputModel? y) => (x is null && y is null)
+            || ((x is not null && y is not null)
+                && ((x.CustomerA?.Id == y.CustomerA?.Id && x.CustomerB?.Id == y.CustomerB?.Id)
+                    || (x.CustomerA?.Id == y.CustomerB?.Id && x.CustomerB?.Id == y.CustomerA?.Id)));
+
+        public override int GetHashCode([DisallowNull] InputModel pair) =>
+            HashCode.Combine(pair.CustomerA?.Id, pair.CustomerB?.Id);
+    }
+}

@@ -1,0 +1,71 @@
+@page "/coaches"
+
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.EntityFrameworkCore
+@using SoulDashboard.Components.Coaches
+@using SoulDashboard.Database.Contexts
+
+@rendermode RenderMode.InteractiveServer
+
+@inject ApplicationDbContext Context
+
+@* @attribute [Authorize(Roles = "Manager")] *@
+
+<PageTitle>Coaches</PageTitle>
+
+<h1 class="header">Coaches List</h1>
+
+<div class="coaches-list">
+    <p>You have total <span id="coachCount">@_coaches.Count</span> coaches.</p>
+
+    <MudDataGrid Items="_coaches" MultiSelection="true">
+        <Columns>
+            <TemplateColumn Title="Coach" Context="coach" HeaderClass="justify-center">
+                <CellTemplate>
+                    <MudStack Row AlignItems="AlignItems.Center">
+                        <MudAvatar>
+                            <MudImage Src="@($"data:image/png;base64,{Convert.ToBase64String(coach.Item.Image)}")" />
+                        </MudAvatar>
+                        <MudText>
+                            @coach.Item.Name @coach.Item.Surname
+                        </MudText>
+                    </MudStack>
+                </CellTemplate>
+            </TemplateColumn>
+            <PropertyColumn Property="c => c.Email" />
+            <PropertyColumn Property="c => c.Customers.Count" />
+            <TemplateColumn Context="coach">
+                <CellTemplate>
+                    <MudPopover Open="@(_selectedCoach == coach.Item)" >
+                        <CascadingValue Value="Context">
+                            <ClientList Customers="_customers" @bind-Coach="_selectedCoach" />
+                        </CascadingValue>
+                    </MudPopover>
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="() => _selectedCoach = coach.Item">
+                        Clients
+                    </MudButton>
+                </CellTemplate>
+            </TemplateColumn>
+        </Columns>
+    </MudDataGrid>
+</div>
+
+@code {
+    private IList<Employee> _coaches = default!;
+
+    private IEnumerable<Customer> _customers = default!;
+
+    private Employee? _selectedCoach;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _coaches = await Context.Employees
+            .Include(e => e.Customers)
+            .Where(e => e.Work.Equals("Coach"))
+            .ToListAsync();
+
+        _customers = await Context.Customers.ToListAsync();
+
+        await  base.OnInitializedAsync();
+    }
+}

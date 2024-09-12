@@ -1,0 +1,31 @@
+@page "/tips"
+
+@using Microsoft.EntityFrameworkCore
+@using SoulDashboard.Database.Contexts
+
+@rendermode RenderMode.InteractiveServer
+
+@inject ApplicationDbContext Context
+
+<PageTitle>Tips</PageTitle>
+
+<div class="container mt-5">
+    <h1 class="header">Tips for Coaches</h1>
+
+    <MudExpansionPanels Class="my-10">
+        @foreach (var tip in _tips)
+        {
+            <MudExpansionPanel Text="@tip.Title">
+                @tip.Content
+            </MudExpansionPanel>
+        }
+    </MudExpansionPanels>
+</div>
+
+@code {
+    private List<Tip> _tips = default!;
+    protected override async Task OnInitializedAsync()
+    {
+        _tips = await Context.Tips.AsNoTracking().ToListAsync();
+    }
+}

@@ -1,0 +1,95 @@
+@using System.Linq.Expressions
+@using SoulDashboard.Database.Contexts
+
+<MudCard>
+    <MudCardHeader>
+        <MudText>Coach clients</MudText>
+    </MudCardHeader>
+    <MudCardContent>
+        <MudAutocomplete @ref=_input Label="Clients" @bind-Value="Selected"
+            Class="mx-2"
+            SearchFunc="@(
+#pragma warning disable CS8621
+            Search
+#pragma warning restore CS8621
+            )"
+            ToStringFunc="@(c => c is null ? string.Empty : $"{c.Name} {c.Surname}")" />
+        <MudList T="string">
+            @foreach (var customer in Coach?.Customers ?? [])
+            {
+                <MudListItem>
+                    <AvatarContent>
+                        <MudAvatar>
+                            <MudImage Src="@($"data:image/png;base64,{Convert.ToBase64String(customer.Image)}")"/>
+                        </MudAvatar>
+                    </AvatarContent>
+                    <ChildContent>
+                        <MudText>@customer.Name @customer.Surname</MudText>
+                    </ChildContent>
+                </MudListItem>
+            }
+        </MudList>
+    </MudCardContent>
+    <MudCardActions>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="SaveAsync">Save</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="() => Coach = null">Close</MudButton>
+    </MudCardActions>
+</MudCard>
+
+@code {
+    private MudAutocomplete<Customer?> _input = default!;
+
+    private Employee? _coach;
+
+    public Customer? Selected
+    {
+        get => null;
+        set
+        {
+            if (value is not null)
+            {
+                Coach?.Customers.Add(value);
+                StateHasChanged();
+            }
+        }
+    }
+
+    [Parameter]
+    public required IEnumerable<Customer> Customers { get; set; }
+
+#pragma warning disable BL0007
+    [Parameter]
+    public Employee? Coach
+    {
+        get => _coach;
+        set
+        {
+            if (_coach != value)
+            {
+                _coach = value;
+                CoachChanged.InvokeAsync(value);
+            }
+        }
+    }
+#pragma warning restore BL0007
+
+    [Parameter]
+    public EventCallback<Employee?> CoachChanged { get; set; }
+
+    [Parameter]
+    public required Expression<Func<Employee?>> CoachExpression { get; set; }
+
+    [CascadingParameter]
+    public required ApplicationDbContext Context { get; set; }
+
+    private Task SaveAsync()
+    {
+        Coach = null;
+        return Context.SaveChangesAsync();
+    }
+
+    private Task<IEnumerable<Customer>> Search(string value, CancellationToken cancellationToken = default) => Task.FromResult(
+        Customers.Where(c => !(Coach?.Customers.Any(cc => cc.Id == c.Id) ?? false)
+                && (c.Name.Contains(value, StringComparison.CurrentCultureIgnoreCase))
+                    || c.Surname.Contains(value, StringComparison.CurrentCultureIgnoreCase)));
+}

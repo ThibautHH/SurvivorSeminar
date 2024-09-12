@@ -1,0 +1,95 @@
+@page "/clothes"
+
+<PageTitle>Clothes</PageTitle>
+
+<h1 class="header">Clothes</h1>
+
+<div class="container">
+    <div class="main-content">
+        <div class="category-display">
+            <div class="arrow left-arrow" onclick="prevImage('hat')">◄</div>
+            <div class="display-box" id="hat-display">
+                <img src="" alt="Hat" />
+            </div>
+            <div class="arrow right-arrow" onclick="nextImage('hat')">►</div>
+        </div>
+        <div class="category-display">
+            <div class="arrow left-arrow" onclick="prevImage('shirt')">◄</div>
+            <div class="display-box" id="shirt-display">
+                <img src="" alt="Shirt" />
+            </div>
+            <div class="arrow right-arrow" onclick="nextImage('shirt')">►</div>
+        </div>
+        <div class="category-display">
+            <div class="arrow left-arrow" onclick="prevImage('pants')">◄</div>
+            <div class="display-box" id="pant-display">
+                <img src="" alt="Pants" />
+            </div>
+            <div class="arrow right-arrow" onclick="nextImage('pants')">►</div>
+        </div>
+        <div class="category-display">
+            <div class="arrow left-arrow" onclick="prevImage('shoes')">◄</div>
+            <div class="display-box" id="shoes-display">
+                <img src="" alt="Shoes" />
+            </div>
+            <div class="arrow right-arrow" onclick="nextImage('shoes')">►</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const categories = {
+        hat: [
+            "https://via.placeholder.com/150/FF0000",
+            "https://via.placeholder.com/150/00FF00",
+            "https://via.placeholder.com/150/0000FF"
+        ],
+        shirt: [
+            "https://via.placeholder.com/150/FFFF00",
+            "https://via.placeholder.com/150/FF00FF",
+            "https://via.placeholder.com/150/00FFFF"
+        ],
+        pants: [
+            "https://via.placeholder.com/150/FF4500",
+            "https://via.placeholder.com/150/8A2BE2",
+            "https://via.placeholder.com/150/5F9EA0"
+        ],
+        shoes: [
+            "https://via.placeholder.com/150/DC143C",
+            "https://via.placeholder.com/150/7FFF00",
+            "https://via.placeholder.com/150/DAA520"
+        ]
+    };
+
+    const currentIndex = {
+        hat: 0,
+        shirt: 0,
+        pants: 0,
+        shoes: 0
+    };
+
+    function updateDisplay(category) {
+        const displayBox = document.getElementById(`${category}-display`).querySelector('img');
+        displayBox.src = categories[category][currentIndex[category]];
+    }
+
+    function prevImage(category) {
+        if (currentIndex[category] > 0) {
+            currentIndex[category]--;
+        } else {
+            currentIndex[category] = categories[category].length - 1;
+        }
+        updateDisplay(category);
+    }
+
+    function nextImage(category) {
+        if (currentIndex[category] < categories[category].length - 1) {
+            currentIndex[category]++;
+        } else {
+            currentIndex[category] = 0;
+        }
+        updateDisplay(category);
+    }
+
+    Object.keys(categories).forEach(category => updateDisplay(category));
+</script>
