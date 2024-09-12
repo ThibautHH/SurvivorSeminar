@@ -14,34 +14,59 @@
 <h1 class="header">Customers</h1>
 
 <div class="main-container">
-    <!-- Customer Box Section -->
+    <!-- Customer Profile Section -->
     <div class="customer-box">
-        <div class="customer-selection">
-            <label for="customerSelect">Customer:</label>
-            <select id="customerSelect" onchange="displayCustomerInfo()" class="customer-dropdown">
-                <option value="">-- Select a customer --</option>
-            </select>
-        </div>
-        <div id="customerInfo" class="customer-info">
+        <div class="customer-info">
             <div class="customer-photo">
-                <img id="photo" alt="Customer Photo" class="picture">
+                <img id="photo" alt="Customer Photo" class="picture" src="https://via.placeholder.com/150">
             </div>
             <div class="customer-details">
-                <h2 id="name"></h2>
-                <div class="customer-birthdate">
-                    Birthday:
-                    <p id="birthDate"></p>
-                    Adress:
-                    <p id="address"></p>
+                <h2 id="name">Jean Dupont</h2>
+                <div class="stats">
+                    <div class="stat">
+                        <p id="totalEncounters">12</p>
+                        <span>Total Encounters</span>
+                    </div>
+                    <div class="stat">
+                        <p id="positives">8</p>
+                        <span>Positives</span>
+                    </div>
+                    <div class="stat">
+                        <p id="inProgress">4</p>
+                        <span>In Progress</span>
+                    </div>
+                </div>
+                <div class="short-details">
+                    <div class="detail-item">
+                        <p>User ID:</p>
+                        <span id="userId">123456</span>
+                    </div>
+                    <div class="detail-item">
+                        <p>Email:</p>
+                        <span id="email">jean.dupont@example.com</span>
+                    </div>
+                    <div class="detail-item">
+                        <p>Address:</p>
+                        <span id="addressDetail">123 Avenue de France, Paris</span>
+                    </div>
+                    <div class="detail-item">
+                        <p>Last Activity:</p>
+                        <span id="lastActivity">12/09/2024</span>
+                    </div>
+                    <div class="detail-item">
+                        <p>Coach:</p>
+                        <span id="coach">Marie Durand</span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Tables Section -->
+    <!-- Meetings and Payment Section -->
     <div class="tables-container">
+        <!-- Meetings Section -->
         <div class="table-section">
-            <h3>Meetings</h3>
+            <h3>Recent Meetings</h3>
             <table id="meetingsTable" class="meetings-table">
                 <thead>
                     <tr>
@@ -52,18 +77,59 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <tr>
+                        <td>01/09/2024</td>
+                        <td>5</td>
+                        <td>Great meeting, productive.</td>
+                        <td>Zoom</td>
+                    </tr>
+                    <tr>
+                        <td>15/08/2024</td>
+                        <td>4</td>
+                        <td>Good progress, some issues to fix.</td>
+                        <td>Teams</td>
+                    </tr>
+                    <tr>
+                        <td>30/07/2024</td>
+                        <td>3</td>
+                        <td>Average, needs more focus.</td>
+                        <td>In-person</td>
+                    </tr>
                 </tbody>
             </table>
-            <h3>Payments</h3>
+        </div>
+
+        <!-- Payment History Section -->
+        <div class="table-section">
+            <h3>Payments History</h3>
             <table id="paymentsTable" class="payments-table">
                 <thead>
                     <tr>
                         <th>Date</th>
+                        <th>Payment Method</th>
                         <th>Amount</th>
                         <th>Comment</th>
                     </tr>
                 </thead>
                 <tbody>
+                    <tr>
+                        <td class="date">10/09/2024</td>
+                        <td>VISA</td>
+                        <td class="amount">$100</td>
+                        <td>Monthly subscription</td>
+                    </tr>
+                    <tr>
+                        <td class="date">01/08/2024</td>
+                        <td>PayPal</td>
+                        <td class="amount">$90</td>
+                        <td>Discount applied</td>
+                    </tr>
+                    <tr>
+                        <td class="date">15/07/2024</td>
+                        <td>MasterCard</td>
+                        <td class="amount">$120</td>
+                        <td>Regular subscription</td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -73,35 +139,25 @@
 <script>
     const customersList = [
         {
-            name: "Louis Delanata",
-            birthDate: "09/06/1996",
-            address: "3 Rue de la Tour 34000 Montpellier, France",
-            photoUrl: "https://via.placeholder.com/150/FFFF00",
+            name: "Jean Dupont",
+            totalEncounters: 12,
+            positives: 8,
+            inProgress: 4,
+            userId: "123456",
+            email: "jean.dupont@example.com",
+            address: "123 Avenue de France, Paris",
+            lastActivity: "12/09/2024",
+            coach: "Marie Durand",
+            photoUrl: "https://via.placeholder.com/150",
             payments: [
-                { date: "2023-12-01", amount: "200€", comment: "Subscription" },
-                { date: "2024-01-10", amount: "300€", comment: "Subscription" },
-                { date: "2024-02-20", amount: "200€", comment: "Subscription" }
+                { date: "10/09/2024", amount: "$100", method: "VISA", comment: "Monthly subscription" },
+                { date: "01/08/2024", amount: "$90", method: "PayPal", comment: "Discount applied" },
+                { date: "15/07/2024", amount: "$120", method: "MasterCard", comment: "Regular subscription" }
             ],
             meetings: [
-                { date: "2024-02-14", rating: "3/5", report: "super moment", source: "Application" },
-                { date: "2024-03-12", rating: "4/5", report: "Direction les Bahamas", source: "La compagnie aérienne" },
-                { date: "2024-03-20", rating: "1/5", report: "Je me suis perdu", source: "Au bar" }
-            ]
-        },
-        {
-            name: "Jean Jack",
-            birthDate: "01/02/2002",
-            address: "14 rue des plages, France",
-            photoUrl: "https://via.placeholder.com/150/00FFFF",
-            payments: [
-                { date: "2003-01-02", amount: "600€", comment: "Subscription" },
-                { date: "2020-06-11", amount: "100€", comment: "Subscription" },
-                { date: "2024-09-30", amount: "150€", comment: "Subscription" }
-            ],
-            meetings: [
-                { date: "2024-01-20", rating: "1/5", report: "elle n'a pas voulu payer", source: "Meeting" },
-                { date: "2024-12-03", rating: "5/5", report: "j'ai pécho", source: "Club" },
-                { date: "2023-02-17", rating: "3/5", report: "truc de fou", source: "Carrefour" }
+                { date: "01/09/2024", rating: "5", report: "Great meeting, productive.", source: "Zoom" },
+                { date: "15/08/2024", rating: "4", report: "Good progress, some issues to fix.", source: "Teams" },
+                { date: "30/07/2024", rating: "3", report: "Average, needs more focus.", source: "In-person" }
             ]
         }
     ];
@@ -124,8 +180,14 @@
 
         const customer = customersList[index];
         document.getElementById('name').textContent = customer.name;
-        document.getElementById('birthDate').textContent = `${customer.birthDate}`;
-        document.getElementById('address').textContent = `Address: ${customer.address}`;
+        document.getElementById('totalEncounters').textContent = customer.totalEncounters;
+        document.getElementById('positives').textContent = customer.positives;
+        document.getElementById('inProgress').textContent = customer.inProgress;
+        document.getElementById('userId').textContent = customer.userId;
+        document.getElementById('email').textContent = customer.email;
+        document.getElementById('addressDetail').textContent = customer.address;
+        document.getElementById('lastActivity').textContent = customer.lastActivity;
+        document.getElementById('coach').textContent = customer.coach;
         document.getElementById('photo').src = customer.photoUrl;
 
         const paymentsTableBody = document.getElementById('paymentsTable').getElementsByTagName('tbody')[0];
@@ -133,8 +195,11 @@
         customer.payments.forEach(payment => {
             const row = paymentsTableBody.insertRow();
             row.insertCell(0).textContent = payment.date;
-            row.insertCell(1).textContent = payment.amount;
-            row.insertCell(2).textContent = payment.comment;
+            row.insertCell(1).textContent = payment.method;
+            row.insertCell(2).textContent = payment.amount;
+            row.insertCell(3).textContent = payment.comment;
+            row.cells[0].classList.add('date'); // Ajout de la classe 'date' aux dates
+            row.cells[2].classList.add('amount'); // Ajout de la classe 'amount' aux montants
         });
 
         const meetingsTableBody = document.getElementById('meetingsTable').getElementsByTagName('tbody')[0];

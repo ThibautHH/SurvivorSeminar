@@ -1,0 +1,203 @@
+@page "/customerslist"
+
+<link rel="stylesheet" href="Customers.razor.css">
+
+<div class="customers-list">
+    <h1>Customers List <button id="addCustomerButton" class="add-button">+</button></h1>
+    <p>You have total <span id="customerCount"></span> customers.</p>
+
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search customer by name">
+        <div class="search-suggestions hidden" id="searchSuggestions"></div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th><input type="checkbox" id="selectAll"></th>
+                <th>Customer</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Payment Method</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="customersTable">
+
+        </tbody>
+    </table>
+</div>
+
+<div id="popupContainer" class="popup hidden">
+    <div class="popup-content">
+        <h3>Customer Details</h3>
+        <p>Customer: <span id="popupCustomerName"></span></p>
+        <p>Coach: <span id="popupCoachName"></span></p>
+        <button id="deleteCustomerButton" class="delete-button">Delete Customer</button>
+        <button id="seeProfileButton" class="profile-button">See Profile</button>
+        <button id="closePopup">Close</button>
+    </div>
+</div>
+
+<div id="addCustomerPopup" class="popup hidden">
+    <div class="popup-content">
+        <h3>Add a Customer</h3>
+        <form id="addCustomerForm">
+            <label for="customerName">Name :</label>
+            <input type="text" id="customerName" required><br>
+            <label for="customerEmail">Email :</label>
+            <input type="email" id="customerEmail" required><br>
+            <label for="customerPhone">Phone :</label>
+            <input type="text" id="customerPhone" required><br>
+            <label for="customerPaymentMethod">Payment Method :</label>
+            <input type="text" id="customerPaymentMethod" required><br>
+            <label for="customerCoach">Associated Coach :</label>
+            <input type="text" id="customerCoach" required><br>
+            <button type="submit">Add Customer</button>
+        </form>
+        <button id="closeAddCustomerPopup">Close</button>
+    </div>
+</div>
+
+<script>
+    let selectedCustomerIndex = null;
+
+    const coaches = [
+        { name: "Bobby Gilbert", email: "bobby@softnio.com", phone: "+342 675-6578", photo: "https://via.placeholder.com/40", clients: ["Client A", "Client B"], selectedClients: [] },
+        { name: "Olivia Poulsen", email: "olivia@apple.com", phone: "+782 332-8328", photo: "https://via.placeholder.com/40", clients: ["Client C", "Client D"], selectedClients: [] },
+        { name: "Heather Marshall", email: "marshall@reakitt.com", phone: "+342 545-5639", photo: "https://via.placeholder.com/40", clients: ["Client E", "Client F"], selectedClients: [] },
+        { name: "Benjamin Harris", email: "info@mediavest.com", phone: "+342 675-6578", photo: "https://via.placeholder.com/40", clients: ["Client G", "Client H"], selectedClients: [] },
+        { name: "Joshua Kennedy", email: "joshua@softnio.com", phone: "+323 345-8676", photo: "https://via.placeholder.com/40", clients: ["Client I", "Client J"], selectedClients: [] },
+    ];
+
+    const customers = [
+        { name: "Client A", email: "clienta@example.com", phone: "+342 675-6578", paymentMethod: "Credit Card", coach: "Bobby Gilbert" },
+        { name: "Client B", email: "clientb@example.com", phone: "+342 675-6578", paymentMethod: "PayPal", coach: "Bobby Gilbert" },
+        { name: "Client C", email: "clientc@example.com", phone: "+782 332-8328", paymentMethod: "Bank Transfer", coach: "Olivia Poulsen" },
+        { name: "Client D", email: "clientd@example.com", phone: "+782 332-8328", paymentMethod: "Credit Card", coach: "Olivia Poulsen" },
+        // Add more customers here...
+    ];
+
+    function populateCustomersTable() {
+        const tableBody = document.getElementById("customersTable");
+        tableBody.innerHTML = ''; 
+        customers.forEach((customer, index) => {
+            const row = document.createElement("tr");
+            row.innerHTML = 
+                `<td><input type="checkbox" class="select-customer"></td>
+                <td>${customer.name}</td>
+                <td>${customer.email}</td>
+                <td>${customer.phone}</td>
+                <td>${customer.paymentMethod}</td>
+                <td><span class="action-icon" data-customer="${index}">...</span></td>`;
+            tableBody.appendChild(row);
+        });
+
+        document.querySelectorAll('.action-icon').forEach(item => {
+            item.addEventListener('click', function() {
+                selectedCustomerIndex = this.getAttribute('data-customer');
+                showPopup(selectedCustomerIndex);
+            });
+        });
+    }
+
+    function updateCustomerCount() {
+        const customerCount = document.getElementById("customerCount");
+        customerCount.textContent = customers.length;
+    }
+
+    function showPopup(customerIndex) {
+        const popupContainer = document.getElementById('popupContainer');
+        const customer = customers[customerIndex];
+
+        document.getElementById('popupCustomerName').textContent = customer.name;
+        document.getElementById('popupCoachName').textContent = customer.coach;
+
+        popupContainer.classList.remove('hidden');
+    }
+
+    document.getElementById('closePopup').addEventListener('click', function() {
+        document.getElementById('popupContainer').classList.add('hidden');
+    });
+
+    document.getElementById("addCustomerForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+        const name = document.getElementById("customerName").value;
+        const email = document.getElementById("customerEmail").value;
+        const phone = document.getElementById("customerPhone").value;
+        const paymentMethod = document.getElementById("customerPaymentMethod").value;
+        const coach = document.getElementById("customerCoach").value;
+        customers.push({ name, email, phone, paymentMethod, coach });
+        populateCustomersTable();
+        updateCustomerCount();
+        document.getElementById('addCustomerPopup').classList.add('hidden');
+    });
+
+    document.getElementById('addCustomerButton').addEventListener('click', function() {
+        document.getElementById('addCustomerPopup').classList.remove('hidden');
+    });
+
+    document.getElementById('closeAddCustomerPopup').addEventListener('click', function() {
+        document.getElementById('addCustomerPopup').classList.add('hidden');
+    });
+
+    document.getElementById('deleteCustomerButton').addEventListener('click', function() {
+        if (selectedCustomerIndex !== null) {
+            customers.splice(selectedCustomerIndex, 1);
+            populateCustomersTable();
+            updateCustomerCount();
+            document.getElementById('popupContainer').classList.add('hidden');
+        }
+    });
+
+    document.getElementById('seeProfileButton').addEventListener('click', function() {
+        // Placeholder for future functionality
+        alert('See Profile button clicked');
+    });
+
+    document.getElementById('searchInput').addEventListener('input', function() {
+        const searchValue = this.value.toLowerCase();
+        const suggestions = document.getElementById('searchSuggestions');
+        suggestions.innerHTML = '';
+
+        if (searchValue.length > 0) {
+            const filteredCustomers = customers.filter(customer => customer.name.toLowerCase().includes(searchValue));
+            filteredCustomers.forEach(customer => {
+                const suggestionItem = document.createElement('div');
+                suggestionItem.textContent = customer.name;
+                suggestionItem.addEventListener('click', () => {
+                    document.getElementById('searchInput').value = customer.name;
+                    suggestions.classList.add('hidden');
+                    highlightCustomer(customer.name);
+                });
+                suggestions.appendChild(suggestionItem);
+            });
+            suggestions.classList.remove('hidden');
+        } else {
+            suggestions.classList.add('hidden');
+            document.querySelectorAll('#customersTable tr').forEach(row => {
+                row.classList.remove('highlight');
+            });
+        }
+    });
+
+    function highlightCustomer(customerName) {
+        document.querySelectorAll('#customersTable tr').forEach(row => {
+            if (row.textContent.toLowerCase().includes(customerName.toLowerCase())) {
+                row.classList.add('highlight');
+            } else {
+                row.classList.remove('highlight');
+            }
+        });
+    }
+
+    document.getElementById('selectAll').addEventListener('change', function() {
+        const isChecked = this.checked;
+        document.querySelectorAll('.select-customer').forEach(checkbox => {
+            checkbox.checked = isChecked;
+        });
+    });
+
+    populateCustomersTable();
+    updateCustomerCount();
+</script>
