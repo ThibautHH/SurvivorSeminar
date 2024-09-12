@@ -1,15 +1,11 @@
 @page "/tips"
 
-@using System.ComponentModel.DataAnnotations
 @using Microsoft.EntityFrameworkCore
-@using SoulDashboard.Components.Astrology
 @using SoulDashboard.Database.Contexts
-@using System.Diagnostics.CodeAnalysis
 
 @rendermode RenderMode.InteractiveServer
 
 @inject ApplicationDbContext Context
-@inject TimeProvider TimeProvider
 
 <PageTitle>Tips</PageTitle>
 
@@ -17,43 +13,19 @@
     <h1>Tips</h1>
 </div>
 
-<div class="container">
-    @if (allTips != null && allTips.Any())
+<MudExpansionPanels Class="my-10">
+    @foreach (var tip in _tips)
     {
-        @for (int i = 0; i < allTips.Count; i += tipsPerRow)
-        {
-            <div class="row">
-                @for (int j = 0; j < tipsPerRow && i + j < allTips.Count; j++)
-                {
-                    <div class="tip-container">
-                        <h3>@allTips[i + j].Title</h3>
-                        <p>@allTips[i + j].Content</p>
-                    </div>
-                }
-            </div>
-        }
+        <MudExpansionPanel Text="@tip.Title">
+            @tip.Content
+        </MudExpansionPanel>
     }
-    else
-    {
-        <p>Loading tips...</p>
-    }
-</div>
+</MudExpansionPanels>
 
 @code {
-    private List<Tip> allTips = new();
-    private const int tipsPerRow = 3; // Number of tips to display per row
-
+    private List<Tip> _tips = default!;
     protected override async Task OnInitializedAsync()
     {
-        allTips = await GetAllTipsAsync();
-    }
-
-    private async Task<List<Tip>> GetAllTipsAsync()
-    {
-        var tips = await Context.Tips
-            .AsNoTracking()
-            .ToListAsync();
-
-        return tips;
+        _tips = await Context.Tips.AsNoTracking().ToListAsync();
     }
 }
